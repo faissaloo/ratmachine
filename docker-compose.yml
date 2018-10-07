@@ -1,0 +1,40 @@
+version: '2'
+
+services:
+  app:
+    build: .
+    image: ratmachine
+    command: amber watch
+    environment:
+      DATABASE_URL: postgres://admin:password@db:5432/ratmachine_development
+    ports:
+      - 3000:3000
+    links:
+      - db
+    volumes:
+    - .:/app
+    - shards:/app/lib
+
+  migrate:
+    build: .
+    image: ratmachine
+    command: bash -c 'while ! nc -q 1 db 5432 </dev/null; do sleep 1; done && amber db migrate seed'
+    environment:
+      DATABASE_URL: postgres://admin:password@db:5432/ratmachine_development
+    volumes:
+      - .:/app
+    links:
+      - db
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ratmachine_development
+    volumes:
+      - db:/var/lib/postgres/data
+
+volumes:
+  db:
+  shards:
