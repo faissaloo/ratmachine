@@ -14,14 +14,8 @@ class IndexController < ApplicationController
   end
 
   def post
-    params.validation do
-      required(:msg) { |msg| !msg.empty? && msg.size <= 8192 }
-      optional(:parent) { |id| id.numeric? }
-    end
-
-    unless params.valid?
-      @error_msg = params.errors.to_s
-      halt!(400, @error_msg)
+    unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
+      return "Incorrect or expired CAPTCHA"
     end
 
     #Might wanna rescue in the case that we try to reply to something that
@@ -88,14 +82,15 @@ class IndexController < ApplicationController
   end
 
   def render_post_form()
-  	content(element_name: :div, options: {class: "post_form"}.to_h) do
+    content(element_name: :div, options: {class: "post_form"}.to_h) do
       #reply_msg = "Posting"
       #reply_msg = "Replying to post #{@reply_to}" unless @reply_to.nil?
       #We can't mark this as post_form_contents because options: doesn't work
   		form(action: "", method: "post") do
         csrf_tag() +
-  			hidden_field(:parent, value: @reply_to) + "<br/>" +
-  		  label(:msg, "Message:") + "<br/>" +
+        hidden_field(:parent, value: @reply_to) + "<br/>" +
+        label(:msg, "Message:") + "<br/>" +
+        captcha_form() +
         #Also can't add autofocus to this because again, no options
   			text_area(:msg, "") + "<br/>" +
   			submit("post")
@@ -103,5 +98,15 @@ class IndexController < ApplicationController
 
   		#reply_msg + post_form
   	end
+  end
+
+
+  def captcha_form()
+    new_captcha = Captcha.generate()
+    content(element_name: :div, options: {class: "captcha_form"}.to_h) do
+      content(element_name: :img, content: "CAPTCHA", options: {src: "/dist/images/captcha/#{new_captcha.id.to_s}.png"}.to_h) + "<br/>" +
+      hidden_field(:captcha_id, value: new_captcha.id) + "<br/>" +
+      text_field(:captcha_value) + "<br/>"
+    end
   end
 end
