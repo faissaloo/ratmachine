@@ -26,11 +26,11 @@ shards:
 
   db:
     github: crystal-lang/crystal-db
-    version: 0.5.0
+    version: 0.5.1
 
   email:
     github: arcage/crystal-email
-    version: 0.2.5
+    version: 0.3.2
 
   garnet_spec:
     github: amberframework/garnet-spec
@@ -50,7 +50,7 @@ shards:
 
   jasper_helpers:
     github: amberframework/jasper-helpers
-    version: 0.2.0
+    version: 0.2.1
 
   kilt:
     github: jeromegn/kilt
@@ -66,7 +66,7 @@ shards:
 
   mysql:
     github: crystal-lang/crystal-mysql
-    version: 0.5.0
+    version: 0.5.1
 
   optarg:
     github: mosop/optarg
@@ -82,7 +82,7 @@ shards:
 
   quartz_mailer:
     github: amberframework/quartz-mailer
-    version: 0.5.1
+    version: 0.5.2
 
   redis:
     github: stefanwille/crystal-redis
