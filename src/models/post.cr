@@ -1,3 +1,4 @@
+require "../helpers/formatter_helper.cr"
 class Post < Granite::Base
   adapter pg
   table_name posts
@@ -9,9 +10,7 @@ class Post < Granite::Base
   timestamps
 
   def html
-    self.message
-    #Uncomment once you create the RiseUp shard and recreate FormatterHelper
-    #FormatterHelper.format(self.message)
+    FormatterHelper.format(self.message.as(String))
   end
 
   def self.reply(message, parent_id : Int32 | Nil = nil)

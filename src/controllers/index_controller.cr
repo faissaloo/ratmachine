@@ -90,9 +90,9 @@ class IndexController < ApplicationController
         csrf_tag() +
         hidden_field(:parent, value: @reply_to) + "<br/>" +
         label(:msg, "Message:") + "<br/>" +
-        captcha_form() +
         #Also can't add autofocus to this because again, no options
   			text_area(:msg, "") + "<br/>" +
+        captcha_form() +
   			submit("post")
   		end
 
@@ -104,9 +104,9 @@ class IndexController < ApplicationController
   def captcha_form()
     new_captcha = Captcha.generate()
     content(element_name: :div, options: {class: "captcha_form"}.to_h) do
-      content(element_name: :img, content: "CAPTCHA", options: {src: "/dist/images/captcha/#{new_captcha.id.to_s}.png"}.to_h) + "<br/>" +
+      content(element_name: :img, content: "", options: {src: "/dist/images/captcha/#{new_captcha.id.to_s}.png"}.to_h) + "<br/>" +
       hidden_field(:captcha_id, value: new_captcha.id) + "<br/>" +
-      text_field(:captcha_value) + "<br/>"
+      text_field(:captcha_value, placeholder: "captcha") + "<br/>"
     end
   end
 end
