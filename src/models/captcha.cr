@@ -8,7 +8,7 @@ class Captcha < Granite::Base
   def self.generate_captcha_string(length)
     string = ""
     length.times do
-      string += ('a'.ord+Random.rand(27)).chr
+      string += ('a'.ord+Random.rand(26)).chr
     end
     string
   end
