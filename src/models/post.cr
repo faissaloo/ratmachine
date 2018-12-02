@@ -16,26 +16,23 @@ class Post < Granite::Base
   def self.reply(message, parent_id : Int32 | Nil = nil)
     post_to_delete : Post | Nil
     post_to_delete = nil
-    if Post.count >= 254
 
+    if Post.count >= 254
       post_to_delete = Post.first("ORDER BY updated_at ASC")
     end
 
     post = Post.create(message: message, parent: parent_id)
     post_id = post.id
 
-    parent = Nil
+    parent = nil
     #Update all parents
-    last_reply = post
-    until parent_id.nil?
-      parent = Post.find(parent_id)
+		until parent_id.nil?
+			parent = Post.find!(parent_id)
       unless parent.nil?
-        #This is a little broken because of our little addition here
-        # might need to rework this logic for crystal
-        parent.update(last_reply: last_reply.id)
-        #parent.touch #Maybe we don't need this
-        last_reply = parent
-        parent_id = last_reply.parent
+        parent_id = parent.parent
+        unless parent_id.nil?
+  				parent.update(last_reply: parent_id)
+        end
       end
     end
 

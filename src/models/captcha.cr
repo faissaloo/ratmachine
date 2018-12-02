@@ -18,13 +18,13 @@ class Captcha < Granite::Base
 
     Captcha.all("WHERE created_at < (NOW() - INTERVAL '5 minutes')").each do |record|
       begin
-        File.delete("public/dist/images/captcha/#{record.id.to_s}.png")
+        File.delete("public/dist/images/captcha/#{record.id}.png")
       rescue
       end
       record.destroy
     end
 
-    Process.run("sh",["-c","convert -font DejaVu-Sans -fill black -background transparent -size 255x64 -wave #{Random.rand(4).to_s}x#{Random.rand(64).to_s} -gravity Center -pointsize 64 -implode 0.2 label:#{new_captcha.value} png:- 2>&1 > public/dist/images/captcha/#{new_captcha.id}.png"])
+    Process.run("sh",["-c","convert -font DejaVu-Sans -fill black -background transparent -size 192x64 -wave #{Random.rand(4)}x#{Random.rand(64)} -gravity Center -pointsize #{32+Random.rand(16)} -implode 0.#{Random.rand(3)} label:#{new_captcha.value} png:- 2>&1 > public/dist/images/captcha/#{new_captcha.id}.png"])
     new_captcha
   end
 
@@ -32,7 +32,6 @@ class Captcha < Granite::Base
   def self.is_valid?(id, value)
     found_captcha = Captcha.find(id)
     return false if found_captcha.nil?
-    Process.run("sh",["-c","echo #{found_captcha.value} #{value} >> /tmp/out"])
     found_captcha.value == value
   end
 end

@@ -1,11 +1,12 @@
 FROM amberframework/amber:v0.9.0
 
-RUN apt update -qq && apt install -y --no-install-recommends imagemagick
+RUN apt update -q
+RUN apt install -y --no-install-recommends imagemagick
 
 WORKDIR /app
 
 COPY shard.* /app/
-RUN shards install 
+RUN shards install
 
 COPY . /app
 
