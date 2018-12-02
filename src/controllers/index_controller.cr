@@ -9,7 +9,7 @@ class IndexController < ApplicationController
     unless id.nil?
       @reply_to = id.to_i
     end
-    #@heading_image = Dir.glob("#{Rails.root}/app/assets/images/heading/*").sample.split("#{Rails.root}/app/assets/images/")[1] #Dir.glob("*")
+    @heading_image = Dir.glob("public/dist/images/banners/*").sample.sub("public/","")
     render("index.ecr")
   end
 
@@ -17,13 +17,23 @@ class IndexController < ApplicationController
     unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
       return "Incorrect or expired CAPTCHA"
     end
+    if params[:msg].empty?
+      return "Message empty"
+    elsif params[:msg].size > 8192
+      return "Message too long"
+    end
 
     #Might wanna rescue in the case that we try to reply to something that
     # doesn't exist but idk how
-    if params[:parent].empty?
-      post_id = Post.reply(params[:msg])
-    else
-      post_id = Post.reply(params[:msg], params[:parent].to_i)
+
+    begin
+      if params[:parent].empty?
+        post_id = Post.reply(params[:msg])
+      else
+        post_id = Post.reply(params[:msg], params[:parent].to_i)
+      end
+    rescue Granite::Querying::NotFound
+      return "The post you're trying to reply to does not exist"
     end
 
     redirect_to("/#{post_id}#reply-#{post_id}")
@@ -37,8 +47,8 @@ class IndexController < ApplicationController
   		unless parent.nil?
   			post_button = content(element_name: :a, content: "Reply", options: {
   				href: "#{parent.id.to_s}#reply-#{parent.id.to_s}",
-  				id: "reply-#{parent.id.to_s}"}.to_h) +
-  				parent.id.to_s +
+  				id: "reply-#{parent.id.to_s}"}.to_h) + " " +
+  				parent.id.to_s + " " +
   				parent.created_at.to_s #("%d/%m/%Y %H:%M")
   		else
   			post_button = content(element_name: :a, content: "Post", options: {href: "/#top", id: "top"}.to_h)
@@ -58,7 +68,7 @@ class IndexController < ApplicationController
 
   def render_banner()
     content(element_name: :div, options: {class: "banner"}.to_h) do
-    	content(element_name: :img, content: "a random apng", options: {src: @heading_image.to_s, id: "heading_image"}.to_h) +
+    	content(element_name: :img, content: "", options: {src: @heading_image.to_s, id: "heading_image"}.to_h) +
     	content(element_name: :h2, options: {id: "motd"}.to_h) do
     		#FormatterHelper.heading.html_safe
     	end +
@@ -81,22 +91,25 @@ class IndexController < ApplicationController
     end
   end
 
+  def get_post_form_title()
+    return "Posting <br/>" if @reply_to.nil?
+    "Replying to post #{@reply_to} <br/>"
+  end
+
   def render_post_form()
     content(element_name: :div, options: {class: "post_form"}.to_h) do
-      #reply_msg = "Posting"
-      #reply_msg = "Replying to post #{@reply_to}" unless @reply_to.nil?
-      #We can't mark this as post_form_contents because options: doesn't work
-  		form(action: "", method: "post") do
-        csrf_tag() +
-        hidden_field(:parent, value: @reply_to) + "<br/>" +
-        label(:msg, "Message:") + "<br/>" +
-        #Also can't add autofocus to this because again, no options
-  			text_area(:msg, "") + "<br/>" +
-        captcha_form() +
-  			submit("post")
-  		end
-
-  		#reply_msg + post_form
+      get_post_form_title() +
+      content(element_name: :div, options: {class: "post_form_contents"}.to_h) do
+    		form(action: "", method: "post") do
+          csrf_tag() +
+          hidden_field(:parent, value: @reply_to) + "<br/>" +
+          label(:msg, "Message:") + "<br/>" +
+          #Can't add autofocus to this cus no options:
+    			text_area(:msg, "") + "<br/>" +
+          captcha_form() +
+    			submit("post")
+    		end
+      end
   	end
   end
 
