@@ -25,15 +25,12 @@ class Post < Granite::Base
     post_id = post.id
 
     parent = nil
-    #Update all parents
-		until parent_id.nil?
-			parent = Post.find!(parent_id)
-      unless parent.nil?
-        parent_id = parent.parent
-        unless parent_id.nil?
-  				parent.update(last_reply: parent_id)
-        end
-      end
+    last_reply = post_id
+    until parent_id.nil?
+      parent = Post.find!(parent_id)
+      parent.update(last_reply: parent_id)
+      last_reply = parent
+      parent_id = last_reply.parent
     end
 
     unless post_to_delete.nil?
