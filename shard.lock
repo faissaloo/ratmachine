@@ -2,7 +2,7 @@ version: 1.0
 shards:
   amber:
     github: amberframework/amber
-    version: 0.9.0
+    version: 0.11.0
 
   amber_router:
     github: amberframework/amber-router
@@ -50,7 +50,7 @@ shards:
 
   jasper_helpers:
     github: amberframework/jasper-helpers
-    version: 0.2.1
+    version: 0.2.3
 
   kilt:
     github: jeromegn/kilt
@@ -110,5 +110,5 @@ shards:
 
   teeplate:
     github: mosop/teeplate
-    version: 0.6.1
+    version: 0.7.0
 
