@@ -23,9 +23,6 @@ class IndexController < ApplicationController
       return "Message too long"
     end
 
-    #Might wanna rescue in the case that we try to reply to something that
-    # doesn't exist but idk how
-
     begin
       if params[:parent].empty?
         post_id = Post.reply(params[:msg])
@@ -69,11 +66,9 @@ class IndexController < ApplicationController
   def render_banner()
     content(element_name: :div, options: {class: "banner"}.to_h) do
     	content(element_name: :img, content: "", options: {src: @heading_image.to_s, id: "heading_image"}.to_h) +
-    	content(element_name: :h2, options: {id: "motd"}.to_h) do
-    		#FormatterHelper.heading.html_safe
-    	end +
-    	content(element_name: :h4, options: {id: "bitcoin"}.to_h) do
-    		"Bitcoin: 1LseDRH9dywzfpW6vGpkaNYpQWSpaqwz44"
+    	content(element_name: :h4, options: {id: "main info"}.to_h) do
+    		"Bitcoin: 1LseDRH9dywzfpW6vGpkaNYpQWSpaqwz44 " +
+        content(element_name: :a, content: "TOR", options: {href: "http://clo5p5jsvei55iyz.onion"}.to_h)
     	end +
     	content(element_name: :div, options: {id: "about_opener"}.to_h) do
     		content(element_name: :a, options: {id: "about_button"}.to_h) do
@@ -81,11 +76,11 @@ class IndexController < ApplicationController
     		end +
     		content(element_name: :p, options: {id: "about"}.to_h) do
     			content(element_name: :a, content: "Ratwires", options: {href: "https://github.com/faissaloo/Ratmachine"}.to_h) +
-            "is an anonymous AGPL'd javascriptless single board textboard inspired by" +
+            " is an anonymous AGPL'd javascriptless single board textboard inspired by" +
             content(element_name: :a, content: "Make Frontend Shit Again", options: {href: "https://makefrontendshitagain.party/"}.to_h) +
             " and " +
             content(element_name: :a, content: "2channel", options: {href: "https://5ch.net/"}.to_h) +
-            "written in Crystal with the Amber Framework. It has a 255 post limit, after which the oldest post will be purged."
+            " written in Crystal with the Amber Framework. It has a 255 post limit, after which the oldest post will be purged."
     		end
     	end
     end

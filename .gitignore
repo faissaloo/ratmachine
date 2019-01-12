@@ -12,3 +12,4 @@ production.yml
 /bin/
 /node_modules
 /public/dist/images/captcha
+config/environments/.production.enc
