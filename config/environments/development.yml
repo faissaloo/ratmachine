@@ -33,3 +33,4 @@ smtp:
 
 secrets:
   description: Store your development secrets credentials and settings here.
+  root_password: changeme

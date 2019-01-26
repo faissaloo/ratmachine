@@ -28,6 +28,8 @@ Amber::Server.configure do
   end
 
   routes :web do
+    delete "/post/delete", PostController, :delete
+    get "/mod", ModController, :mod
     post "/:id", IndexController, :post
     post "/", IndexController, :post
     get "/:id", IndexController, :index
