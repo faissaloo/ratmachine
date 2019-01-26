@@ -1,3 +1,5 @@
+require "../helpers/captcha/captcha"
+
 class IndexController < ApplicationController
   @error_msg : String | Nil
   @heading_image : String | Nil
@@ -76,7 +78,7 @@ class IndexController < ApplicationController
     		end +
     		content(element_name: :p, options: {id: "about"}.to_h) do
     			content(element_name: :a, content: "Ratwires", options: {href: "https://github.com/faissaloo/Ratmachine"}.to_h) +
-            " is an anonymous AGPL'd javascriptless single board textboard inspired by" +
+            " is an anonymous AGPL'd javascriptless single board textboard inspired by " +
             content(element_name: :a, content: "Make Frontend Shit Again", options: {href: "https://makefrontendshitagain.party/"}.to_h) +
             " and " +
             content(element_name: :a, content: "2channel", options: {href: "https://5ch.net/"}.to_h) +
@@ -101,20 +103,10 @@ class IndexController < ApplicationController
           label(:msg, "Message:") + "<br/>" +
           #Can't add autofocus to this cus no options:
     			text_area(:msg, "") + "<br/>" +
-          captcha_form() +
+          CaptchaHelper.captcha_form() +
     			submit("post")
     		end
       end
   	end
-  end
-
-
-  def captcha_form()
-    new_captcha = Captcha.generate()
-    content(element_name: :div, options: {class: "captcha_form"}.to_h) do
-      content(element_name: :img, content: "", options: {src: "/dist/images/captcha/#{new_captcha.id.to_s}.png"}.to_h) + "<br/>" +
-      hidden_field(:captcha_id, value: new_captcha.id) + "<br/>" +
-      text_field(:captcha_value, placeholder: "captcha") + "<br/>"
-    end
   end
 end

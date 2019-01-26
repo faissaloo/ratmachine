@@ -1,9 +1,15 @@
-.PHONY: dev build deploy
+SRC_DIR := src
+SRC_FILES := $(shell find src/ -type f -regex ".*\.cr")
+
+.PHONY: dev
 dev:
 	docker-compose up
 
-build:
+bin/ratmachine: $(SRC_FILES)
 	shards build ratmachine --release
+
+build: bin/ratmachine
+	@echo "Built ratmachine to bin/ratmachine"
 
 deploy: build
 	ssh -i ~/.ssh/ratwires -p 460 root@ratwires.space "systemctl stop ratmachine"

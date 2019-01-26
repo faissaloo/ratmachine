@@ -33,11 +33,19 @@ class Post < Granite::Base
       parent_id = last_reply.parent
     end
 
-    unless post_to_delete.nil?
-      posts_to_orphan = Post.all("SET parent = NULL WHERE parent EQUALS #{post_to_delete.id}")
-      post_to_delete.destroy
-    end
+    post_to_delete.delete() unless post_to_delete.nil?
     post_id
+  end
+
+  def delete
+    orphan_children()
+    destroy()
+  end
+
+  def orphan_children()
+    Post.all("WHERE parent = #{self.id}").each do |post|
+      post.update(parent: nil)
+    end
   end
 
   def self.get_replies(parent : Post | Nil = nil)
