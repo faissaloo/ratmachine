@@ -32,13 +32,25 @@ a:hover {
 	margin: 1em;
 }
 
-#msg {
+input {
+	outline-width: 0;
 	color: black;
 	background-color: #ffcaf2;
 }
 
-#msg:focus {
-    outline-width: 0;
+input:focus {
+	border-color: #1A1A1A;
+	border-style: inset;
+	border-width: 2px;
+}
+
+textarea {
+	outline-width: 0;
+	color: black;
+	background-color: #ffcaf2;
+}
+
+textarea:focus {
 		border-color: #1A1A1A;
 		border-style: inset;
 		border-width: 2px;
