@@ -32,6 +32,18 @@ a:hover {
 	margin: 1em;
 }
 
+#msg {
+	color: black;
+	background-color: #ffcaf2;
+}
+
+#msg:focus {
+    outline-width: 0;
+		border-color: #1A1A1A;
+		border-style: inset;
+		border-width: 2px;
+}
+
 #heading_image {
 	max-height: 160px;
 }
@@ -82,7 +94,7 @@ a:hover {
 	border-color: #1A1A1A;
 	background-color:rgba(0,0,0,.2);
 	border-radius: 4px;
-	margin: 0.1em;;
+	margin: 0.1em;
 }
 
 .post a:hover {
@@ -112,7 +124,7 @@ input[type=button]:hover, input[type=submit]:hover {
 .post {
 	color: #f6b3e5;
 	border-radius: 4px;
-	padding: 0.5em;;
+	padding: 0.5em;
 	border-width: 2px;
 	border-style: solid;
 	background-color:rgba(0,0,0,.2);
@@ -130,6 +142,7 @@ input[type=button]:hover, input[type=submit]:hover {
 	background-color: black;
 	color: black;
 	padding: 0.3em;
+	margin: 0.3em;
 }
 
 .spoiler:hover {
@@ -179,6 +192,24 @@ input[type=button]:hover, input[type=submit]:hover {
 	80% { transform: translate(-1px, -1px) rotate(1deg); }
 	90% { transform: translate(1px, 2px) rotate(0deg); }
 }
+
+.glow {
+  color: white;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 0.5em #FFFFFF, 0 0 0.6em #FFFFFF;
+  }
+  to {
+    text-shadow: 0 0 1.1em #00FF00, 0 0 1.2em #00FF00;
+  }
+}
+
 
 .post_content a {
 	padding: 0px;
