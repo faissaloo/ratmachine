@@ -1,9 +1,12 @@
 SRC_DIR := src
 SRC_FILES := $(shell find src/ -type f -regex ".*\.cr")
 
-.PHONY: dev
+.PHONY: dev config
 dev:
 	docker-compose up
+
+config:
+	amber encrypt production
 
 bin/ratmachine: $(SRC_FILES)
 	shards build ratmachine --release
