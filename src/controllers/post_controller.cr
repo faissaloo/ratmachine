@@ -1,4 +1,32 @@
 class PostController < ApplicationController
+  def create
+    unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
+      @error_msg = "Incorrect or expired CAPTCHA"
+      return render("create.ecr")
+    end
+    if params[:msg].empty?
+      @error_msg = "Message empty"
+      return render("create.ecr")
+    elsif params[:msg].size > 8192
+      @error_msg = "Message too long"
+      return render("create.ecr")
+    end
+
+    begin
+      if params[:parent].empty?
+        post_id = Post.reply(params[:msg])
+      else
+        post_id = Post.reply(params[:msg], params[:parent].to_i)
+      end
+    rescue Granite::Querying::NotFound
+      return "The post you're trying to reply to does not exist"
+    end
+
+    redirect_to("/#{post_id}#reply-#{post_id}")
+
+    render("create.ecr")
+  end
+
   def delete
     unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
       @status_msg = "Invalid captcha"
