@@ -9,6 +9,7 @@ config:
 	amber encrypt production
 
 bin/ratmachine: $(SRC_FILES)
+	npm run-script build
 	shards build ratmachine --release
 
 build: bin/ratmachine

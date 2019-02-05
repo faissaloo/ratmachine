@@ -4,6 +4,11 @@ class ApplicationController < Amber::Controller::Base
   include JasperHelpers
   LAYOUT = "application.ecr"
 
+  @redirect_url : String | Nil
+  def redirector()
+    "<meta http-equiv=\"REFRESH\" content=\"1;url=#{@redirect_url}\">" unless @redirect_url.nil?
+  end
+
   def render_banner()
     heading_image = Dir.glob("public/dist/images/banners/*").sample.sub("public/","")
     content(element_name: :div, options: {class: "banner"}.to_h) do

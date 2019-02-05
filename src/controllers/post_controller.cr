@@ -19,11 +19,11 @@ class PostController < ApplicationController
         post_id = Post.reply(params[:msg], params[:parent].to_i)
       end
     rescue Granite::Querying::NotFound
-      return "The post you're trying to reply to does not exist"
+      @error_msg =  "The post you're trying to reply to does not exist"
+      return render("create.ecr")
     end
 
     redirect_to("/#{post_id}#reply-#{post_id}")
-
     render("create.ecr")
   end
 
@@ -50,6 +50,7 @@ class PostController < ApplicationController
 
     post.delete()
     @status_msg = "Post deleted"
+    @redirect_url = "/mod"
     render("delete.ecr")
   end
 end
