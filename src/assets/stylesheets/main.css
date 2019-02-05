@@ -1,14 +1,15 @@
 body {
 	color: #f6b3e5;
 	background-color: #c876ff;
+	background-image: url(../../../public/dist/images/bg.png);
 	font-family: sans-serif;
 }
 
-.post_form_contents {
+.form_contents {
 	display: none;
 }
 
-.post_form:hover .post_form_contents {
+.form:hover .form_contents {
 	display: block;
 }
 
@@ -25,7 +26,7 @@ a:hover {
 .banner {
 	text-align: center;
 	background-color:rgba(0,0,0,.4);
-	border-color: #1A1A1A;
+	border-color: rgba(0,0,0,.4);
 	border-width: 2px;
 	border-style: solid;
 	padding: 8px;
@@ -39,7 +40,7 @@ input {
 }
 
 input:focus {
-	border-color: #1A1A1A;
+	border-color: #8c53b3;
 	border-style: inset;
 	border-width: 2px;
 }
@@ -51,7 +52,7 @@ textarea {
 }
 
 textarea:focus {
-		border-color: #1A1A1A;
+		border-color: #8c53b3;
 		border-style: inset;
 		border-width: 2px;
 }
@@ -77,8 +78,8 @@ textarea:focus {
 	display: none;
 }
 
-.post_form {
-	border-color: #1A1A1A;
+.form {
+	border-color: #8c53b3;
 	border-width: 2px;
 	border-style: solid;
 	padding: 8px;
@@ -91,7 +92,7 @@ textarea:focus {
 	z-index: 255;
 }
 
-.post_form textarea {
+.form textarea {
 	width: 30em;
 	height: 10em;
 }
@@ -103,7 +104,7 @@ textarea:focus {
 	font-weight: bold;
 	border-width: 2px;
 	border-style: outset;
-	border-color: #1A1A1A;
+	border-color: rgba(0,0,0,.2);
 	background-color:rgba(0,0,0,.2);
 	border-radius: 4px;
 	margin: 0.1em;
@@ -122,7 +123,7 @@ input[type=button],input[type=submit] {
 	font-weight: bold;
 	border-width: 2px;
 	border-style: outset;
-	border-color: #1A1A1A;
+	border-color: rgba(0,0,0,.2);
 	background-color:rgba(0,0,0,.2);
 	border-radius: 4px;
 }
@@ -140,7 +141,7 @@ input[type=button]:hover, input[type=submit]:hover {
 	border-width: 2px;
 	border-style: solid;
 	background-color:rgba(0,0,0,.2);
-	border-color: #1A1A1A;
+	border-color: rgba(0,0,0,.2);
 }
 
 .redtext {

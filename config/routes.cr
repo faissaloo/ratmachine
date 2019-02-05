@@ -29,7 +29,9 @@ Amber::Server.configure do
 
   routes :web do
     delete "/post/delete", PostController, :delete
+    get "/mod/:id", ModController, :mod
     get "/mod", ModController, :mod
+    
     post "/post/create/:id", PostController, :create
     post "/post/create", PostController, :create
     get "/:id", IndexController, :index

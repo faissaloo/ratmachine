@@ -13,3 +13,4 @@ production.yml
 /node_modules
 /public/dist/images/captcha
 config/environments/.production.enc
+public/dist/main.bundle.css
