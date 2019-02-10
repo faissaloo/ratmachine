@@ -6,7 +6,7 @@ shards:
 
   amber_router:
     github: amberframework/amber-router
-    version: 0.2.0
+    version: 0.2.1
 
   callback:
     github: mosop/callback
@@ -30,7 +30,7 @@ shards:
 
   email:
     github: arcage/crystal-email
-    version: 0.3.2
+    version: 0.3.3
 
   garnet_spec:
     github: amberframework/garnet-spec
@@ -50,7 +50,7 @@ shards:
 
   jasper_helpers:
     github: amberframework/jasper-helpers
-    version: 0.2.3
+    version: 0.2.4
 
   kilt:
     github: jeromegn/kilt
@@ -82,7 +82,7 @@ shards:
 
   quartz_mailer:
     github: amberframework/quartz-mailer
-    version: 0.5.2
+    version: 0.5.3
 
   redis:
     github: stefanwille/crystal-redis
