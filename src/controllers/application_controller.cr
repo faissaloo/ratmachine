@@ -17,8 +17,8 @@ class ApplicationController < Amber::Controller::Base
         "Bitcoin: 1LseDRH9dywzfpW6vGpkaNYpQWSpaqwz44 " +
         content(element_name: :a, content: "TOR", options: {href: "http://clo5p5jsvei55iyz.onion"}.to_h)
       end +
-      content(element_name: :div, options: {id: "about_opener"}.to_h) do
-        content(element_name: :a, options: {id: "about_button"}.to_h) do
+      content(element_name: :details, options: {id: "about_opener"}.to_h) do
+        content(element_name: :summary, options: {id: "about_button"}.to_h) do
           "About"
         end +
         content(element_name: :p, options: {id: "about"}.to_h) do
