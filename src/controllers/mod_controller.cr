@@ -43,8 +43,10 @@ class ModController < ApplicationController
 
   def render_delete_form()
     unless @post_to_action.nil?
-      content(element_name: :div, options: {class: "form"}.to_h) do
-        get_mod_form_title() +
+      content(element_name: :details, options: {class: "form"}.to_h) do
+        content(element_name: :summary, options: {class: "form_heading"}.to_h) do
+          get_mod_form_title()
+        end +
         form(action: "/post/delete", method: "delete") do
           csrf_tag() +
           hidden_field(:post_id, value: @post_to_action) +

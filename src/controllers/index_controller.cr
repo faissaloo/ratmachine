@@ -45,8 +45,10 @@ class IndexController < ApplicationController
   end
 
   def render_post_form()
-    content(element_name: :div, options: {class: "form"}.to_h) do
-      get_post_form_title() +
+    content(element_name: :details, options: {class: "form"}.to_h) do
+      content(element_name: :summary, options: {class: "form_heading"}.to_h) do
+        get_post_form_title()
+      end +
       content(element_name: :div, options: {class: "form_contents"}.to_h) do
     		form(action: "/post/create/#{@reply_to}", method: "post") do
           csrf_tag() +
