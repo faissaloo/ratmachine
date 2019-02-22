@@ -124,6 +124,10 @@ input[type=button]:hover, input[type=submit]:hover {
 	border-color: rgba(0,0,0,.2);
 }
 
+.SelectedPost {
+	background-color: rgba(0,0,255,.2);
+}
+
 .redtext {
 	font-weight: bold;
 	font-size: 1.5em;
