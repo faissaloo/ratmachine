@@ -14,21 +14,28 @@ class IndexController < ApplicationController
     render("index.ecr")
   end
 
-  #View helpers, should probably be moved
+  def is_selected_class(post : Post | Nil)
+    if (@reply_to.nil? && post.nil?) || ((!post.nil?) && @reply_to == post.id)
+      " SelectedPost"
+    else
+      ""
+    end
+  end
+
   def render_thread(parent : Post | Nil = nil)
-  	content(element_name: :div, options: {class: "post"}.to_h) do
+  	content(element_name: :div, options: {class: "post"+is_selected_class(parent)}.to_h) do
   		unless parent.nil?
   			post_button = content(element_name: :a, content: "Reply", options: {
   				href: "#{parent.id.to_s}#reply-#{parent.id.to_s}",
   				id: "reply-#{parent.id.to_s}"}.to_h) + " " +
   				parent.id.to_s + " " +
-  				parent.created_at.to_s #("%d/%m/%Y %H:%M")
+  				parent.created_at.to_s
   		else
   			post_button = content(element_name: :a, content: "Post", options: {href: "/#top", id: "top"}.to_h)
   		end
   		post_content = content(element_name: :div, options: {class: "post_content"}.to_h) do
   			content(element_name: :p, options: {class: "post_text"}.to_h) do
-  				parent.html unless parent.nil? #.html_safe
+  				parent.html unless parent.nil?
   			end
   		end
 
