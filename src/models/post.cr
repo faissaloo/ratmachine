@@ -18,7 +18,7 @@ class Post < Granite::Base
     post_to_delete = nil
 
     if Post.count >= 254
-      post_to_delete = Post.first("ORDER BY updated_at ASC")
+      post_to_delete = Post.first("ORDER BY created_at ASC")
     end
 
     post = Post.create(message: message, parent: parent_id)
