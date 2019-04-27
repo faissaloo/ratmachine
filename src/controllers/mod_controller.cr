@@ -18,13 +18,13 @@ class ModController < ApplicationController
   				href: "/mod/#{parent.id.to_s}#reply-#{parent.id.to_s}",
   				id: "reply-#{parent.id.to_s}"}.to_h) + " " +
   				parent.id.to_s + " " +
-  				parent.created_at.to_s #("%d/%m/%Y %H:%M")
+  				parent.created_at.to_s
   		else
   			select_button = content(element_name: :a, content: "Deselect", options: {href: "/mod/#top", id: "top"}.to_h)
   		end
   		post_content = content(element_name: :div, options: {class: "post_content"}.to_h) do
   			content(element_name: :p, options: {class: "post_text"}.to_h) do
-  				parent.html unless parent.nil? #.html_safe
+  				parent.html unless parent.nil?
   			end
   		end
 
