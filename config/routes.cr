@@ -27,23 +27,25 @@ Amber::Server.configure do
     plug Amber::Pipe::Static.new("./public")
   end
 
+  routes :static do
+    get "/robots.txt", Amber::Controller::Static, :index
+  end
+
   routes :web do
     delete "/post/delete", PostController, :delete
     get "/mod/:id", ModController, :mod
     get "/mod", ModController, :mod
-    
+
     post "/post/create/:id", PostController, :create
     post "/post/create", PostController, :create
     get "/:id", IndexController, :index
     get "/", IndexController, :index
   end
 
-  routes :api do
+  routes :static do
+    get "/*", Amber::Controller::Static, :index
   end
 
-  routes :static do
-    # Each route is defined as follow
-    # verb resource : String, controller : Symbol, action : Symbol
-    get "/*", Amber::Controller::Static, :index
+  routes :api do
   end
 end
