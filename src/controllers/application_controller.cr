@@ -12,7 +12,7 @@ class ApplicationController < Amber::Controller::Base
   def render_banner()
     heading_image = Dir.glob("public/dist/images/banners/*").sample.sub("public/","")
     content(element_name: :div, options: {class: "banner"}.to_h) do
-      content(element_name: :img, content: "", options: {src: heading_image.to_s, id: "heading_image"}.to_h) +
+      content(element_name: :img, content: "", options: {src: heading_image.to_s, id: "heading_image", alt: "XD lol random dancing"}.to_h) +
       content(element_name: :h4, options: {id: "main info"}.to_h) do
         "Bitcoin: 1LseDRH9dywzfpW6vGpkaNYpQWSpaqwz44 " +
         content(element_name: :a, content: "TOR", options: {href: "http://clo5p5jsvei55iyz.onion"}.to_h)
