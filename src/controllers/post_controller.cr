@@ -7,7 +7,7 @@ class PostController < ApplicationController
     if params[:msg].empty?
       @error_msg = "Message empty"
       return render("create.ecr")
-    elsif params[:msg].size > 8192
+    elsif params[:msg].size > 1024
       @error_msg = "Message too long"
       return render("create.ecr")
     end
