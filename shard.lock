@@ -34,7 +34,7 @@ shards:
 
   garnet_spec:
     github: amberframework/garnet-spec
-    version: 0.2.1
+    version: 0.2.3
 
   granite:
     github: amberframework/granite
@@ -58,7 +58,7 @@ shards:
 
   liquid:
     github: TechMagister/liquid.cr
-    version: 0.3.0
+    version: 0.3.1
 
   micrate:
     github: amberframework/micrate
