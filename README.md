@@ -1,5 +1,6 @@
 # ratmachine
 
+![Logo](res/logo.png)  
 [![Amber Framework](https://img.shields.io/badge/using-amber_framework-orange.svg)](https://amberframework.org)
 
 Ratmachine is an javascriptless anonymous textboard engine with various text effects.  
