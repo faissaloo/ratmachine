@@ -29,6 +29,8 @@ Amber::Server.configure do
 
   routes :static do
     get "/robots.txt", Amber::Controller::Static, :index
+    get "/favicon.ico", Amber::Controller::Static, :index
+    get "/favicon.png", Amber::Controller::Static, :index
   end
 
   routes :web do
