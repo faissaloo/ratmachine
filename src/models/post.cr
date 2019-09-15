@@ -1,12 +1,12 @@
 require "../helpers/formatter_helper.cr"
 class Post < Granite::Base
-  adapter pg
-  table_name posts
+  connection pg
+  table posts
 
-  # id : Int64 primary key is created for you
-  field parent : Int32
-  field message : String
-  field last_reply : Int32
+  column id : Int64, primary: true
+  column parent : Int32?
+  column message : String
+  column last_reply : Int32?
   timestamps
 
   def html
