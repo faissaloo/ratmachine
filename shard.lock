@@ -2,23 +2,23 @@ version: 1.0
 shards:
   amber:
     github: amberframework/amber
-    version: 0.11.0
+    version: 0.30.0
 
   amber_router:
     github: amberframework/amber-router
-    version: 0.2.1
+    version: 0.3.0
 
   callback:
-    github: mosop/callback
-    version: 0.6.3
+    github: drujensen/callback
+    version: 0.7.1
 
   citrine-i18n:
     github: amberframework/citrine-i18n
     version: 0.3.2
 
   cli:
-    github: mosop/cli
-    version: 0.7.0
+    github: drujensen/cli
+    version: 0.8.0
 
   compiled_license:
     github: elorest/compiled_license
@@ -26,11 +26,15 @@ shards:
 
   db:
     github: crystal-lang/crystal-db
-    version: 0.5.1
+    version: 0.6.0
 
   email:
     github: arcage/crystal-email
     version: 0.3.3
+
+  exception_page:
+    github: crystal-loot/exception_page
+    version: 0.1.2
 
   garnet_spec:
     github: amberframework/garnet-spec
@@ -38,7 +42,7 @@ shards:
 
   granite:
     github: amberframework/granite
-    version: 0.13.1
+    version: 0.17.2
 
   i18n:
     github: TechMagister/i18n.cr
@@ -66,15 +70,15 @@ shards:
 
   mysql:
     github: crystal-lang/crystal-mysql
-    version: 0.5.1
+    version: 0.8.0
 
   optarg:
-    github: mosop/optarg
-    version: 0.5.8
+    github: drujensen/optarg
+    version: 0.7.0
 
   pg:
     github: will/crystal-pg
-    version: 0.15.0
+    version: 0.18.1
 
   pool:
     github: ysbaddaden/pool
@@ -86,7 +90,7 @@ shards:
 
   redis:
     github: stefanwille/crystal-redis
-    version: 2.0.0
+    version: 2.2.1
 
   selenium:
     github: ysbaddaden/selenium-webdriver-crystal
@@ -102,7 +106,7 @@ shards:
 
   sqlite3:
     github: crystal-lang/crystal-sqlite3
-    version: 0.10.0
+    version: 0.13.0
 
   string_inflection:
     github: mosop/string_inflection
@@ -110,5 +114,5 @@ shards:
 
   teeplate:
     github: mosop/teeplate
-    version: 0.7.0
+    version: 0.8.0
 

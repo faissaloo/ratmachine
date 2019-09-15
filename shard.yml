@@ -4,7 +4,7 @@ version: 0.1.0
 authors:
   - faissaloo <faissaloo@gmail.com>
 
-crystal: 0.26.1
+crystal: 0.30.1
 
 license: AGPLv3 
 
@@ -18,12 +18,12 @@ targets:
 dependencies:
   amber:
     github: amberframework/amber
-    version: 0.11.0
+    version: 0.30.0
     #branch: master
 
   granite:
     github: amberframework/granite
-    version: ~> 0.13.0
+    version: ~> 0.17.2
 
   quartz_mailer:
     github: amberframework/quartz-mailer
@@ -35,7 +35,7 @@ dependencies:
 
   pg:
     github: will/crystal-pg
-    version: ~> 0.15.0
+    version: ~> 0.18.0
 
   citrine-i18n:
     github: amberframework/citrine-i18n

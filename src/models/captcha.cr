@@ -1,8 +1,9 @@
 class Captcha < Granite::Base
-  adapter pg
-  table_name captchas
+  connection pg
+  table captchas
 
-  field value : String
+  column id : Int64, primary: true
+  column value : String
   timestamps
 
   def self.generate_captcha_string(length)
