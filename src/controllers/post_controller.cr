@@ -1,7 +1,7 @@
 require "uri"
 
 class PostController < ApplicationController
-  def create
+  def create()
     unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
       @error_msg = "Incorrect or expired CAPTCHA"
       return render("create.ecr")
@@ -29,7 +29,7 @@ class PostController < ApplicationController
     render("create.ecr")
   end
 
-  def delete
+  def delete()
     unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
       @status_msg = "Invalid captcha"
       return render("delete.ecr")
