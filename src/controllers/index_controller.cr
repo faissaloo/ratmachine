@@ -61,8 +61,7 @@ class IndexController < ApplicationController
           csrf_tag() +
           hidden_field(:parent, value: @reply_to) + "<br/>" +
           label(:msg, "Message:") + "<br/>" +
-          #Can't add autofocus to this cus no options:
-    			text_area(:msg, "") + "<br/>" +
+    			text_area(:msg, "", autofocus: "true") + "<br/>" +
           CaptchaHelper.captcha_form() +
     			submit("post")
     		end
