@@ -1,8 +1,7 @@
 class PostController < ApplicationController
   def create
     unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
-      @error_msg = Captcha.count.to_s
-      #@error_msg = "Incorrect or expired CAPTCHA"
+      @error_msg = "Incorrect or expired CAPTCHA"
       return render("create.ecr")
     end
     if params[:msg].empty?
