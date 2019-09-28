@@ -17,9 +17,10 @@ class Captcha < Granite::Base
   def self.generate()
     new_captcha = Captcha.create(value: generate_captcha_string(6))
 
-    Captcha.all("WHERE created_at < (NOW() - INTERVAL '5 minutes')").each do |captcha|
-      captcha.delete
-    end
+    #This seems to be broken
+    #Captcha.all("WHERE created_at < (NOW() - INTERVAL '5 minutes')").each do |captcha|
+    #  captcha.delete
+    #end
 
     Process.run("sh",["-c","convert -font DejaVu-Sans -fill black -background transparent -size 192x64 -wave #{Random.rand(4)}x#{Random.rand(64)} -gravity Center -pointsize #{32+Random.rand(16)} -implode 0.#{Random.rand(3)} label:#{new_captcha.value} png:- 2>&1 > public/dist/images/captcha/#{new_captcha.id}.png"])
     new_captcha
