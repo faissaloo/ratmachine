@@ -17,7 +17,7 @@ class Captcha < Granite::Base
   def self.generate()
     new_captcha = Captcha.create(value: generate_captcha_string(6))
 
-    Captcha.where(:created_at, :gt, Time.local - 5.minutes).each do |captcha|
+    Captcha.where(:created_at, :lt, Time.utc - 5.minutes).each do |captcha|
       captcha.destroy
     end
 
