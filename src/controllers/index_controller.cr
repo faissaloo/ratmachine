@@ -52,20 +52,30 @@ class IndexController < ApplicationController
   end
 
   def render_post_form()
-    content(element_name: :details, options: {class: "form"}.to_h) do
-      content(element_name: :summary, options: {class: "form_heading"}.to_h) do
-        get_post_form_title()
-      end +
-      content(element_name: :div, options: {class: "form_contents"}.to_h) do
-    		form(action: "/post/create/#{@reply_to}", method: "post") do
-          csrf_tag() +
-          hidden_field(:parent, value: @reply_to) + "<br/>" +
-          label(:msg, "Message:") + "<br/>" +
-    			text_area(:msg, "", autofocus: "true") + "<br/>" +
-          CaptchaHelper.captcha_form() +
-    			submit("post")
-    		end
+    content(element_name: :summary, options: {class: "form_heading"}.to_h) do
+      get_post_form_title()
+    end +
+    content(element_name: :div, options: {class: "form_contents"}.to_h) do
+  		form(action: "/post/create/#{@reply_to}", method: "post") do
+        csrf_tag() +
+        hidden_field(:parent, value: @reply_to) + "<br/>" +
+        label(:msg, "Message:") + "<br/>" +
+  			text_area(:msg, params[:msg]?, autofocus: "true") + "<br/>" +
+        CaptchaHelper.captcha_form() +
+  			submit("post")
+  		end
+    end
+  end
+
+  def render_post_container()
+    if params[:msg]?.nil?
+      content(element_name: :details, options: {class: "form"}.to_h) do
+        render_post_form()
       end
-  	end
+    else
+      content(element_name: :details, options: {class: "form", open: true}.to_h) do
+        render_post_form()
+      end
+    end
   end
 end

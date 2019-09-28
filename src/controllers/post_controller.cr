@@ -1,3 +1,5 @@
+require "uri"
+
 class PostController < ApplicationController
   def create
     unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
@@ -52,5 +54,14 @@ class PostController < ApplicationController
     @status_msg = "Post deleted"
     @redirect_url = "/mod"
     render("delete.ecr")
+  end
+
+  def render_redirect()
+    if params[:msg]?.nil?
+      encoded_message = ""
+    else
+      encoded_message = URI.encode(params[:msg])
+    end
+    "<meta http-equiv=\"REFRESH\" content=\"1;url=/?msg=#{encoded_message}\">"
   end
 end
