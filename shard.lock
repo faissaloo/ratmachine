@@ -2,7 +2,7 @@ version: 1.0
 shards:
   amber:
     github: amberframework/amber
-    version: 0.30.0
+    commit: 6fd7388dec53efa842f6152d4988d3a5c1e67b1f
 
   amber_router:
     github: amberframework/amber-router
@@ -26,7 +26,7 @@ shards:
 
   db:
     github: crystal-lang/crystal-db
-    version: 0.6.0
+    version: 0.7.0
 
   email:
     github: arcage/crystal-email
@@ -42,7 +42,7 @@ shards:
 
   granite:
     github: amberframework/granite
-    version: 0.17.2
+    version: 0.17.3
 
   i18n:
     github: TechMagister/i18n.cr
@@ -54,7 +54,7 @@ shards:
 
   jasper_helpers:
     github: amberframework/jasper-helpers
-    version: 0.2.4
+    version: 0.2.5
 
   kilt:
     github: jeromegn/kilt
@@ -64,13 +64,17 @@ shards:
     github: TechMagister/liquid.cr
     version: 0.3.1
 
+  markd:
+    github: icyleaf/markd
+    version: 0.1.2
+
   micrate:
     github: amberframework/micrate
-    version: 0.3.3
+    version: 0.4.0
 
   mysql:
     github: crystal-lang/crystal-mysql
-    version: 0.8.0
+    version: 0.9.0
 
   optarg:
     github: drujensen/optarg
@@ -78,7 +82,7 @@ shards:
 
   pg:
     github: will/crystal-pg
-    version: 0.18.1
+    version: 0.19.0
 
   pool:
     github: ysbaddaden/pool
@@ -106,7 +110,7 @@ shards:
 
   sqlite3:
     github: crystal-lang/crystal-sqlite3
-    version: 0.13.0
+    version: 0.14.0
 
   string_inflection:
     github: mosop/string_inflection
