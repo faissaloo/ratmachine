@@ -1,3 +1,15 @@
+#https://github.com/faissaloo/ratmachine/issues/2
+struct Crystal::ThreadLocalValue(T)
+  def get(&block : -> T)
+    th = Thread.current
+    if !@values[th]?
+      @values[th] = yield
+    else
+      @values[th]
+    end
+  end
+end
+
 require "./initializers/**"
 
 require "amber"
