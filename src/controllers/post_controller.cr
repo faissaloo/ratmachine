@@ -14,6 +14,12 @@ class PostController < ApplicationController
       return render("create.ecr")
     end
 
+    severity = Filter.filter_severity(params[:msg])
+    unless severity.nil?
+      @error_msg = "You just posted cringe, you are going to lose subscribers"
+      return render("create.ecr")
+    end
+
     begin
       if params[:parent].empty?
         post_id = Post.reply(params[:msg])

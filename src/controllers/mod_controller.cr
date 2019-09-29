@@ -55,6 +55,33 @@ class ModController < ApplicationController
           submit("delete")
         end
       end
+    else
+      content(element_name: :details, options: {class: "form"}.to_h) do
+        content(element_name: :summary, options: {class: "form_heading"}.to_h) do
+          get_mod_form_title()
+        end +
+        "<table>"+
+        "<tr><th>ID</th><th>Regex</th><th>Severity</th></tr>"+
+        Filter.all.map do |filter|
+          "<tr><td>#{filter.id}</td><td>#{filter.regex}</td><td>#{filter.severity}</td></tr>"
+        end.join+
+        "</table>"+
+        form(action: "/filter/create", method: "post") do
+          csrf_tag() +
+          text_field(:filter_regex, placeholder: "regex", autocomplete: "off") + "<br/>" +
+          text_field(:filter_severity, type: :number, placeholder: "severity", autocomplete: "off") + "<br/>" +
+          text_field(:password, type: :password, placeholder: "password") +
+          CaptchaHelper.captcha_form() +
+          submit("add filter")
+        end+
+        form(action: "/filter/delete", method: "delete") do
+          csrf_tag() +
+          text_field(:filter_id, type: :number, placeholder: "id", autocomplete: "off") + "<br/>" +
+          text_field(:password, type: :password, placeholder: "password") +
+          CaptchaHelper.captcha_form() +
+          submit("delete filter")
+        end
+      end
     end
   end
 end
