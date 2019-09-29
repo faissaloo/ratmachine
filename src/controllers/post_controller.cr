@@ -62,6 +62,10 @@ class PostController < ApplicationController
     else
       encoded_message = URI.encode(params[:msg])
     end
-    "<meta http-equiv=\"REFRESH\" content=\"1;url=/?msg=#{encoded_message}\">"
+    if params[:parent].empty?
+      "<meta http-equiv=\"REFRESH\" content=\"1;url=/?msg=#{encoded_message}\">"
+    else
+      "<meta http-equiv=\"REFRESH\" content=\"1;url=/#{params[:parent]}?msg=#{encoded_message}#reply-#{params[:parent]}\">"
+    end
   end
 end
