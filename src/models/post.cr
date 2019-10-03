@@ -37,22 +37,24 @@ class Post < Granite::Base
     post_id
   end
 
-  def delete
+  def delete()
     orphan_children()
     destroy()
   end
 
   def orphan_children()
-    Post.all("WHERE parent = #{self.id}").each do |post|
-      post.update(parent: nil)
+    Post.where(parent: id).each do |post|
+      #https://github.com/faissaloo/ratmachine/issues/3
+      post.parent = nil
+      post.save
     end
   end
 
   def self.get_replies(parent : Post | Nil = nil)
     if parent.nil?
-      Post.all("WHERE parent IS NULL ORDER BY updated_at DESC")
+      Post.where(parent: nil).order(updated_at: :desc)
     else
-      Post.all("WHERE parent = #{parent.id} ORDER BY updated_at DESC")
+      Post.where(parent: parent.id).order(updated_at: :desc)
     end
   end
 end
