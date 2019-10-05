@@ -2,23 +2,7 @@ require "uri"
 
 class PostController < ApplicationController
   def create()
-    unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
-      @error_msg = "Incorrect or expired CAPTCHA"
-      return render("create.ecr")
-    end
-    if params[:msg].empty?
-      @error_msg = "Message empty"
-      return render("create.ecr")
-    elsif params[:msg].size > 1024
-      @error_msg = "Message too long"
-      return render("create.ecr")
-    end
-
-    severity = Filter.filter_severity(params[:msg])
-    unless severity.nil?
-      @error_msg = "You just posted cringe, you are going to lose subscribers"
-      return render("create.ecr")
-    end
+    return render("create.ecr") unless check_captcha && check_message_size && check_filters
 
     begin
       if params[:parent].empty?
@@ -27,7 +11,7 @@ class PostController < ApplicationController
         post_id = Post.reply(params[:msg], params[:parent].to_i)
       end
     rescue Granite::Querying::NotFound
-      @error_msg =  "The post you're trying to reply to does not exist"
+      @status_msg =  "The post you're trying to reply to does not exist"
       return render("create.ecr")
     end
 
@@ -36,27 +20,12 @@ class PostController < ApplicationController
   end
 
   def delete()
-    unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
-      @status_msg = "Invalid captcha"
-      return render("delete.ecr")
-    end
-    secrets = Amber.settings.secrets
-    if secrets.nil?
-      @status_msg = "No root password is set"
-      return render("delete.ecr")
-    end
+    return render("delete.ecr") unless check_captcha && check_root_password
 
-    unless params[:password] == secrets["root_password"]
-      @status_msg = "Invalid password"
-      return render("delete.ecr")
-    end
     post = Post.find(params[:post_id].to_i)
-    if post.nil?
-      @status_msg = "No such post"
-      return render("delete.ecr")
-    end
+    return render("delete.ecr") unless check_post(post)
 
-    post.delete()
+    post.as(Post).delete()
     @status_msg = "Post deleted"
     @redirect_url = "/mod"
     render("delete.ecr")
@@ -73,5 +42,55 @@ class PostController < ApplicationController
     else
       "<meta http-equiv=\"REFRESH\" content=\"1;url=/#{params[:parent]}?msg=#{encoded_message}#reply-#{params[:parent]}\">"
     end
+  end
+
+  def check_captcha()
+    unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
+      @status_msg = "Incorrect or expired CAPTCHA"
+      return false
+    end
+    return true
+  end
+
+  def check_message_size()
+    if params[:msg].empty?
+      @status_msg = "Message empty"
+      return false
+    elsif params[:msg].size > 1024
+      @status_msg = "Message too long"
+      return false
+    end
+    return true
+  end
+
+  def check_filters()
+    severity = Filter.filter_severity(params[:msg])
+    unless severity.nil?
+      @status_msg = "You just posted cringe, you are going to lose subscribers"
+      return false
+    end
+    return true
+  end
+
+  def check_root_password()
+    secrets = Amber.settings.secrets
+    if secrets.nil?
+      @status_msg = "No root password is set"
+      return false
+    end
+
+    unless params[:password] == secrets["root_password"]
+      @status_msg = "Invalid password"
+      return false
+    end
+    return true
+  end
+
+  def check_post(post : Post | Nil)
+    if post.nil?
+      @status_msg = "No such post"
+      return false
+    end
+    return true
   end
 end

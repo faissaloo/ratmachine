@@ -60,12 +60,32 @@ class ModController < ApplicationController
         content(element_name: :summary, options: {class: "form_heading"}.to_h) do
           get_mod_form_title()
         end +
-        "<table>"+
-        "<tr><th>ID</th><th>Regex</th><th>Severity</th></tr>"+
-        Filter.all.map do |filter|
-          "<tr><td>#{filter.id}</td><td>#{filter.regex}</td><td>#{filter.severity}</td></tr>"
-        end.join+
-        "</table>"+
+        content(element_name: :table, options: {class: "filter_table"}.to_h) do
+          content(element_name: :tr, options: {class: "filter_table_row"}.to_h) do
+            content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
+              "ID"
+            end +
+            content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
+              "Regex"
+            end +
+            content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
+              "Severity"
+            end
+          end +
+          Filter.all.map do |filter|
+            content(element_name: :tr, options: {class: "filter_table_row"}.to_h) do
+              content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
+                filter.id.to_s
+              end +
+              content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
+                filter.regex
+              end +
+              content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
+                filter.severity
+              end
+            end
+          end.join
+        end +
         form(action: "/filter/create", method: "post") do
           csrf_tag() +
           text_field(:filter_regex, placeholder: "regex", autocomplete: "off") + "<br/>" +

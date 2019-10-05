@@ -1,11 +1,11 @@
 require "../helpers/captcha/captcha"
 
 class IndexController < ApplicationController
-  @error_msg : String | Nil
+  @status_msg : String | Nil
   @heading_image : String | Nil
   @reply_to : Int32 | Nil
   def index
-    @error_msg = ""
+    @status_msg = ""
     @heading_image = ""
     id = params[:id]?
     unless id.nil?
