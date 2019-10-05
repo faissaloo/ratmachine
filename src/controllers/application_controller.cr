@@ -27,7 +27,11 @@ class ApplicationController < Amber::Controller::Base
             content(element_name: :a, content: "Make Frontend Shit Again", options: {href: "https://makefrontendshitagain.party/"}.to_h) +
             " and " +
             content(element_name: :a, content: "2channel", options: {href: "https://5ch.net/"}.to_h) +
-            " written in Crystal with the Amber Framework. It has a 255 post limit, after which the oldest post will be purged."
+            " written in " +
+            content(element_name: :a, content: "Crystal", options: {href: "https://crystal-lang.org"}.to_h) +
+            " with the " +
+            content(element_name: :a, content: "Amber Framework", options: {href: "https://github.com/amberframework/amber"}.to_h) +
+            ". It has a 255 post limit, after which the oldest post will be purged."
         end
       end
     end
