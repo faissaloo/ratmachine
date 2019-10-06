@@ -45,45 +45,27 @@ class PostController < ApplicationController
   end
 
   def check_captcha()
-    unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
-      @status_msg = "Incorrect or expired CAPTCHA"
-      return false
-    end
-    return true
+    filter_check = Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])
+    @status_msg = filter_check[:status]
+    filter_check[:valid]
   end
 
   def check_message_size()
-    if params[:msg].empty?
-      @status_msg = "Message empty"
-      return false
-    elsif params[:msg].size > 1024
-      @status_msg = "Message too long"
-      return false
-    end
-    return true
+    filter_check = Injector.check_message_size.call(message: params[:msg])
+    @status_msg = filter_check[:status]
+    filter_check[:valid]
   end
 
   def check_filters()
-    severity = Filter.filter_severity(params[:msg])
-    unless severity.nil?
-      @status_msg = "You just posted cringe, you are going to lose subscribers"
-      return false
-    end
-    return true
+    filter_check = Injector.check_filters.call(message: params[:msg])
+    @status_msg = filter_check[:status]
+    filter_check[:valid]
   end
 
   def check_root_password()
-    secrets = Amber.settings.secrets
-    if secrets.nil?
-      @status_msg = "No root password is set"
-      return false
-    end
-
-    unless params[:password] == secrets["root_password"]
-      @status_msg = "Invalid password"
-      return false
-    end
-    return true
+    filter_check = Injector.check_root_password.call(password: params[:password])
+    @status_msg = filter_check[:status]
+    filter_check[:valid]
   end
 
   def check_post(post : Post | Nil)

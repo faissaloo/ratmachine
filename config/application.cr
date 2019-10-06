@@ -13,6 +13,8 @@ end
 require "./initializers/**"
 
 require "amber"
+require "../src/core/**"
+require "../src/core/usecase/**"
 require "../src/models/**"
 
 require "../src/controllers/application_controller"

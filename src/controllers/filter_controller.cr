@@ -21,33 +21,21 @@ class FilterController < ApplicationController
   end
 
   def check_captcha()
-    unless Captcha.is_valid?(params[:captcha_id], params[:captcha_value])
-      @status_msg = "Invalid captcha"
-      return false
-    end
-    return true
+    filter_check = Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])
+    @status_msg = filter_check[:status]
+    filter_check[:valid]
   end
 
   def check_root_password()
-    secrets = Amber.settings.secrets
-    if secrets.nil?
-      @status_msg = "No root password is set"
-      return false
-    end
-
-    unless params[:password] == secrets["root_password"]
-      @status_msg = "Invalid password"
-      return false
-    end
-    return true
+    filter_check = Injector.check_root_password.call(password: params[:password])
+    @status_msg = filter_check[:status]
+    filter_check[:valid]
   end
 
   def check_regex_size()
-    if params[:filter_regex].size > 1024
-      @status_msg = "Regex too long"
-      return false
-    end
-    return true
+    filter_check = Injector.check_regex_size.call(regex: params[:filter_regex])
+    @status_msg = filter_check[:status]
+    filter_check[:valid]
   end
 
   def check_filter(filter : Filter | Nil)
