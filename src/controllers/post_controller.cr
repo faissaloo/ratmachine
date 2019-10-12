@@ -4,19 +4,14 @@ class PostController < ApplicationController
   def create()
     return render("create.ecr") unless check_captcha && check_message_size && check_filters
 
-    begin
-      if params[:parent].empty?
-        post_id = Post.reply(params[:msg])
-      else
-        post_id = Post.reply(params[:msg], params[:parent].to_i)
-      end
-    rescue Granite::Querying::NotFound
-      @status_msg =  "The post you're trying to reply to does not exist"
-      return render("create.ecr")
-    end
+    post = Injector.create_post.call(message: params[:msg], parent: params[:parent].try &.to_i32)
+    @status_msg = post[:status]
 
-    redirect_to("/#{post_id}#reply-#{post_id}")
-    render("create.ecr")
+    if post[:post_id].nil?
+      render("create.ecr")
+    else
+      redirect_to("/#{post[:post_id]}#reply-#{post[:post_id]}")
+    end
   end
 
   def delete()

@@ -18,4 +18,8 @@ class Injector
   def self.check_regex_size
     Usecase::CheckRegexSize.new
   end
+
+  def self.create_post
+    Usecase::CreatePost.new
+  end
 end
