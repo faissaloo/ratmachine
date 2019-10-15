@@ -1,10 +1,12 @@
 require "uri"
 
 class PostController < ApplicationController
+  @status_msg : String | Nil
+
   def create()
     return render("create.ecr") unless check_captcha && check_message_size && check_filters
 
-    post = Injector.create_post.call(message: params[:msg], parent: params[:parent].try &.to_i32)
+    post = Injector.create_post.call(message: params[:msg], parent: params[:parent].to_i32?)
     @status_msg = post[:status]
 
     if post[:post_id].nil?
@@ -17,11 +19,7 @@ class PostController < ApplicationController
   def delete()
     return render("delete.ecr") unless check_captcha && check_root_password
 
-    post = Post.find(params[:post_id].to_i)
-    return render("delete.ecr") unless check_post(post)
-
-    post.as(Post).delete()
-    @status_msg = "Post deleted"
+    @status_msg = Injector.delete_post.call(params[:post_id].to_i)[:status]
     @redirect_url = "/mod"
     render("delete.ecr")
   end
@@ -61,13 +59,5 @@ class PostController < ApplicationController
     filter_check = Injector.check_root_password.call(password: params[:password])
     @status_msg = filter_check[:status]
     filter_check[:valid]
-  end
-
-  def check_post(post : Post | Nil)
-    if post.nil?
-      @status_msg = "No such post"
-      return false
-    end
-    return true
   end
 end

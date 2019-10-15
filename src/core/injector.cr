@@ -20,6 +20,10 @@ class Injector
   end
 
   def self.create_post
-    Usecase::CreatePost.new
+    Usecase::CreatePost(Post).new
+  end
+
+  def self.delete_post
+    Usecase::DeletePost(Post).new
   end
 end

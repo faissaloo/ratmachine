@@ -1,11 +1,11 @@
 module Usecase
-  class CreatePost
+  class CreatePost(POST_GATEWAY)
     def call(message : String, parent : Int32?)
       begin
         if parent.nil?
-          post_id = Post.reply(message)
+          post_id = POST_GATEWAY.reply(message)
         else
-          post_id = Post.reply(message, parent)
+          post_id = POST_GATEWAY.reply(message, parent)
         end
         { post_id: post_id, status: nil }
       rescue Granite::Querying::NotFound
