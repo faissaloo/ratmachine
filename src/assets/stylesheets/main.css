@@ -128,6 +128,14 @@ input[type=button]:hover, input[type=submit]:hover {
 	background-color: rgba(0,0,255,.2);
 }
 
+.greentext {
+	color: lime;
+}
+
+.bluetext {
+	color: aqua;
+}
+
 .redtext {
 	font-weight: bold;
 	font-size: 1.5em;
@@ -164,6 +172,7 @@ input[type=button]:hover, input[type=submit]:hover {
 .rainbowtext {
 	animation: rainbow 1s infinite;
 }
+
 @keyframes rainbow {
 	0%{color: crimson;}
 	25%{color: violet;}
