@@ -31,7 +31,7 @@ class ApplicationController < Amber::Controller::Base
             content(element_name: :a, content: "Crystal", options: {href: "https://crystal-lang.org"}.to_h) +
             " with the " +
             content(element_name: :a, content: "Amber Framework", options: {href: "https://github.com/amberframework/amber"}.to_h) +
-            ". It has a 255 post limit, after which the oldest post will be purged."
+            ". It has a 255 post limit, after which the post that has been on the top level the longest is purged."
         end
       end
     end
