@@ -16,6 +16,8 @@ Ratmachine is an javascriptless anonymous textboard engine with various text eff
 |   %%   | spoiler     |
 |   !!   | glowtext    |
 |   ==   | redtext     |
+|   >    | greentext   |
+|   <    | bluetext    |
 
 To start the docker use `make dev`  
 
