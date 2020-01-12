@@ -21,7 +21,7 @@ process_count: 1
 # ssl_key_file:
 # ssl_cert_file:
 redis_url: "redis://localhost:6379"
-database_url: postgres://postgres:@localhost:5432/ratmachine_test
+database_url: postgres://admin:password@db:5432/ratmachine_test
 
 session:
   key: amber.session
@@ -33,4 +33,3 @@ smtp:
 
 secrets:
   description: Store your development secrets credentials and settings here.
-

@@ -26,4 +26,8 @@ class Injector
   def self.delete_post
     Usecase::DeletePost(Post).new
   end
+
+  def self.check_digits
+    Usecase::CheckDigits.new
+  end
 end

@@ -28,7 +28,7 @@ class IndexController < ApplicationController
   			post_button = content(element_name: :a, content: "Reply", options: {
   				href: "#{parent.id.to_s}#reply-#{parent.id.to_s}",
   				id: "reply-#{parent.id.to_s}"}.to_h) + " " +
-  				parent.id.to_s + " " +
+  				parent.id.to_s + " " + check_digits(parent.id) + " " +
   				parent.created_at.to_s
   		else
   			post_button = content(element_name: :a, content: "Post", options: {href: "/#top", id: "top"}.to_h)
@@ -44,6 +44,14 @@ class IndexController < ApplicationController
   		end.join("<br/>")
   		post_button + "<br/>" + post_content + child_posts
   	end
+  end
+
+  def check_digits(post_id : Int64 | Nil)
+    unless post_id.nil?
+      checked = Injector.check_digits.call(post_id: post_id)[:checked]
+      return content(element_name: :span, content: "(x#{checked})", options: { class: "digit_check" }.to_h) if checked > 1
+    end
+    ""
   end
 
   def get_post_form_title()

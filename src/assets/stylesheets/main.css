@@ -15,6 +15,38 @@ a:hover {
 	text-decoration: underline;
 }
 
+.digit_check {
+	font-weight: 900;
+	font-size: 1.2em;
+}
+
+.digit_check {
+	background: #222 -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #fff)) 0 0 no-repeat;
+	background-image: -webkit-linear-gradient(-40deg, transparent 0%, transparent 40%, #fff 50%, transparent 60%, transparent 100%);
+	-webkit-background-size: 200px;
+	color: rgba(0, 255, 255, 0.5);
+	-webkit-background-clip: text;
+	-webkit-animation-name: shine;
+	-webkit-animation-duration: 3s;
+	-webkit-animation-iteration-count: infinite;
+	text-shadow: 0 0px 0px rgba(255, 255, 255, 0.5);
+}
+
+@-webkit-keyframes shine {
+	0% {
+		background-position: -1000px;
+	}
+	1% {
+		background-position: top right;
+	}
+	99% {
+		background-position: top left;
+	}
+	100% {
+		background-position: 1000px;
+	}
+}
+
 .banner {
 	text-align: center;
 	background-color:rgba(0,0,0,.4);

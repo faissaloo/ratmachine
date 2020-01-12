@@ -2,7 +2,7 @@ ENV["AMBER_ENV"] ||= "test"
 
 require "spec"
 require "micrate"
-require "garnet_spec"
+#require "garnet_spec"
 
 require "../config/*"
 
@@ -13,4 +13,3 @@ Micrate::Cli.run_up
 
 # Disable Granite logs in tests
 Granite.settings.logger = Logger.new nil
-
