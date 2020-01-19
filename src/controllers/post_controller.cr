@@ -38,9 +38,9 @@ class PostController < ApplicationController
   end
 
   def check_captcha()
-    filter_check = Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])
-    @status_msg = filter_check[:status]
-    filter_check[:valid]
+    captcha_check = Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])
+    @status_msg = captcha_check[:status]
+    captcha_check[:valid]
   end
 
   def check_message_size()

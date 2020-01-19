@@ -1,14 +1,50 @@
+require "jwt"
 require "../helpers/captcha/captcha"
 
 class ModController < ApplicationController
   @post_to_action : Int32 | Nil
+  def login_page
+    render("login_page.ecr")
+  end
+
+  def authenticate
+    user = User.authenticate(username: params[:username], password: params[:password])
+
+    if user.nil? || Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])[:valid]
+      redirect_to("/mod/login")
+    else
+      response.cookies["session"] = JWT.encode({username: user.username, privilege: :admin}, Authentication.secret, JWT::Algorithm::HS256)
+      if ENV["AMBER_ENV"] != "development"
+        response.cookies["session"].secure = true
+      end
+      redirect_to("/mod")
+    end
+  end
+
   def mod
+    if request.cookies["session"]?
+      payload, header = JWT.decode(request.cookies["session"].value, Authentication.secret, JWT::Algorithm::HS256)
+    end
+
     id = params[:id]?
     unless id.nil?
       @post_to_action = id.to_i
     end
 
     render("mod.ecr")
+  rescue JWT::VerificationError
+    response.status = :unauthorized
+    redirect_to("/mod/login")
+  end
+
+  def render_login_form
+    form(action: "/mod/authenticate", method: "post") do
+      csrf_tag() +
+      text_field(:username, placeholder: "username") + "<br>"+
+      text_field(:password, type: :password, placeholder: "password") +
+      CaptchaHelper.captcha_form() +
+      submit("login")
+    end
   end
 
   def render_thread(parent : Post | Nil = nil)
