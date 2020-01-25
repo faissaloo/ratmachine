@@ -17,11 +17,11 @@ class PostController < ApplicationController
   end
 
   def delete()
-    return render("delete.ecr") unless check_captcha && check_root_password
-
-    @status_msg = Injector.delete_post.call(params[:post_id].to_i)[:status]
-    @redirect_url = "/mod"
-    render("delete.ecr")
+    guard do
+      @status_msg = Injector.delete_post.call(params[:post_id].to_i)[:status]
+      @redirect_url = "/mod"
+      render("delete.ecr")
+    end
   end
 
   def render_redirect()
@@ -37,12 +37,6 @@ class PostController < ApplicationController
     end
   end
 
-  def check_captcha()
-    captcha_check = Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])
-    @status_msg = captcha_check[:status]
-    captcha_check[:valid]
-  end
-
   def check_message_size()
     filter_check = Injector.check_message_size.call(message: params[:msg])
     @status_msg = filter_check[:status]
@@ -51,12 +45,6 @@ class PostController < ApplicationController
 
   def check_filters()
     filter_check = Injector.check_filters.call(message: params[:msg])
-    @status_msg = filter_check[:status]
-    filter_check[:valid]
-  end
-
-  def check_root_password()
-    filter_check = Injector.check_root_password.call(password: params[:password])
     @status_msg = filter_check[:status]
     filter_check[:valid]
   end

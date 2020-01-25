@@ -22,17 +22,14 @@ class ModController < ApplicationController
   end
 
   def mod
-    unless Injector.authenticate_token.call(token: request.cookies["session"]?)[:valid]
-      response.status = :unauthorized
-      redirect_to("/mod/login")
-    end
+    guard do
+      id = params[:id]?
+      unless id.nil?
+        @post_to_action = id.to_i
+      end
 
-    id = params[:id]?
-    unless id.nil?
-      @post_to_action = id.to_i
+      render("mod.ecr")
     end
-
-    render("mod.ecr")
   end
 
   def render_login_form

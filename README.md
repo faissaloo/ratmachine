@@ -21,4 +21,9 @@ Ratmachine is an javascriptless anonymous textboard engine with various text eff
 
 To start the docker use `make dev`  
 
-You can delete posts from `/mod` with the password you've configured with `make config` (for production) under `secrets: root_password:`.
+In order to use the mod tools you will need to add a user to the database manually, replace `<YOUR PASSWORD>` in the crystal code below with the password you want to use for your admin user, then compile and run it to generate the command you will need to run in your shell to add the user.
+```
+require "crypto/bcrypt/password"
+puts "psql --dbname=\"ratmachine\" -c \"INSERT INTO users VALUES (1, 'admin', '#{Crypto::Bcrypt::Password.new("<YOUR PASSWORD>")}');\""
+```
+For your test server replace `ratmachine` with `ratmachine_development`.
