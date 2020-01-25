@@ -38,10 +38,14 @@ class ApplicationController < Amber::Controller::Base
   end
 
   def guard(&block)
-    unless Injector.authenticate_token.call(token: request.cookies["session"]?)[:valid]
+    unless authenticate_token
       response.status = :unauthorized
       redirect_to("/mod/login")
     end
     yield
+  end
+
+  def authenticate_token
+    Injector.authenticate_token.call(token: request.cookies["session"]?)[:valid]
   end
 end

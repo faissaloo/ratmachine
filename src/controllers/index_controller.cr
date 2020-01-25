@@ -24,12 +24,19 @@ class IndexController < ApplicationController
 
   def render_thread(parent : Post | Nil = nil)
   	content(element_name: :div, options: {class: "post"+is_selected_class(parent)}.to_h) do
+      mod_button = ""
   		unless parent.nil?
   			post_button = content(element_name: :a, content: "Reply", options: {
   				href: "#{parent.id.to_s}#reply-#{parent.id.to_s}",
   				id: "reply-#{parent.id.to_s}"}.to_h) + " " +
   				parent.id.to_s + " " + check_digits(parent.id) + " " +
   				parent.created_at.to_s
+
+        if authenticate_token
+          mod_button = content(element_name: :a, content: "Mod", options: {
+            href: "/mod/#{parent.id.to_s}#reply-#{parent.id.to_s}",
+            id: "mod-#{parent.id.to_s}"}.to_h)
+        end
   		else
   			post_button = content(element_name: :a, content: "Post", options: {href: "/#top", id: "top"}.to_h)
   		end
@@ -42,7 +49,7 @@ class IndexController < ApplicationController
   		child_posts = Post.get_replies(parent).map do |post|
   			render_thread(post).as(String)
   		end.join("<br/>")
-  		post_button + "<br/>" + post_content + child_posts
+  		mod_button + post_button + "<br/>" + post_content + child_posts
   	end
   end
 
