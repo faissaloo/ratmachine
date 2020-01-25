@@ -10,8 +10,8 @@ class ModController < ApplicationController
   def authenticate
     user = User.authenticate(username: params[:username], password: params[:password])
 
-    if user.nil? || Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])[:valid]
-      redirect_to("/mod/login")
+    if user.nil? || !Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])[:valid]
+      redirect_to("/mod/login?failed=true")
     else
       response.cookies["session"] = JWT.encode({username: user.username, privilege: :admin}, Authentication.secret, JWT::Algorithm::HS256)
       if ENV["AMBER_ENV"] != "development"
@@ -22,8 +22,9 @@ class ModController < ApplicationController
   end
 
   def mod
-    if request.cookies["session"]?
-      payload, header = JWT.decode(request.cookies["session"].value, Authentication.secret, JWT::Algorithm::HS256)
+    unless Injector.authenticate_token.call(token: request.cookies["session"]?)[:valid]
+      response.status = :unauthorized
+      redirect_to("/mod/login")
     end
 
     id = params[:id]?
@@ -32,9 +33,6 @@ class ModController < ApplicationController
     end
 
     render("mod.ecr")
-  rescue JWT::VerificationError
-    response.status = :unauthorized
-    redirect_to("/mod/login")
   end
 
   def render_login_form
@@ -86,8 +84,6 @@ class ModController < ApplicationController
         form(action: "/post/delete", method: "delete") do
           csrf_tag() +
           hidden_field(:post_id, value: @post_to_action) +
-          text_field(:password, type: :password, placeholder: "password") +
-          CaptchaHelper.captcha_form() +
           submit("delete")
         end
       end
@@ -126,15 +122,11 @@ class ModController < ApplicationController
           csrf_tag() +
           text_field(:filter_regex, placeholder: "regex", autocomplete: "off") + "<br/>" +
           text_field(:filter_severity, type: :number, placeholder: "severity", autocomplete: "off") + "<br/>" +
-          text_field(:password, type: :password, placeholder: "password") +
-          CaptchaHelper.captcha_form() +
           submit("add filter")
         end+
         form(action: "/filter/delete", method: "delete") do
           csrf_tag() +
           text_field(:filter_id, type: :number, placeholder: "id", autocomplete: "off") + "<br/>" +
-          text_field(:password, type: :password, placeholder: "password") +
-          CaptchaHelper.captcha_form() +
           submit("delete filter")
         end
       end

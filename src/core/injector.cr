@@ -30,4 +30,8 @@ class Injector
   def self.check_digits
     Usecase::CheckDigits.new
   end
+
+  def self.authenticate_token
+    Usecase::AuthenticateToken.new
+  end
 end
