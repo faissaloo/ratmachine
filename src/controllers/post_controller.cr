@@ -23,6 +23,12 @@ class PostController < ApplicationController
       render("delete.ecr")
     end
   end
+  
+  def check_captcha()
+    filter_check = Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])
+    @status_msg = filter_check[:status]
+    filter_check[:valid]
+  end
 
   def render_redirect()
     if params[:msg]?.nil?

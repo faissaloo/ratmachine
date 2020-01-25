@@ -10,7 +10,7 @@ class ApplicationController < Amber::Controller::Base
   end
 
   def render_banner()
-    heading_image = Dir.glob("public/dist/images/banners/*").sample.sub("public/","")
+    heading_image = Dir.glob("public/dist/images/banners/*").sample.sub("public/","/")
     content(element_name: :div, options: {class: "banner"}.to_h) do
       content(element_name: :img, content: "", options: {src: heading_image.to_s, id: "heading_image", alt: "XD lol random dancing"}.to_h) +
       content(element_name: :h4, options: {id: "main info"}.to_h) do
