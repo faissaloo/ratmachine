@@ -6,13 +6,23 @@ class PostController < ApplicationController
   def create()
     return render("create.ecr") unless check_captcha && check_message_size && check_filters
 
-    post = Injector.create_post.call(message: params[:msg], parent: params[:parent].to_i32?)
-    @status_msg = post[:status]
+    ip_address = request.remote_address
 
-    if post[:post_id].nil?
-      render("create.ecr")
-    else
-      redirect_to("/#{post[:post_id]}#reply-#{post[:post_id]}")
+    unless ip_address.nil?
+      ip_address = ip_address.split(":").first
+
+      if Ban.exists?(ip_address: ip_address)
+        redirect_to("https://files.catbox.moe/glburl.mp4")
+      else
+        post = Injector.create_post.call(message: params[:msg], parent: params[:parent].to_i32?, ip_address: ip_address)
+        @status_msg = post[:status]
+
+        if post[:post_id].nil?
+          render("create.ecr")
+        else
+          redirect_to("/#{post[:post_id]}#reply-#{post[:post_id]}")
+        end
+      end
     end
   end
 
@@ -23,7 +33,7 @@ class PostController < ApplicationController
       render("delete.ecr")
     end
   end
-  
+
   def check_captcha()
     filter_check = Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])
     @status_msg = filter_check[:status]

@@ -43,7 +43,7 @@ Amber::Server.configure do
     get "/mod/delete", ModController, :delete
     get "/mod/filter", ModController, :filter
     get "/mod/user", ModController, :user
-    #get "/mod/ban", ModController, :ban
+    get "/mod/ban", ModController, :ban
 
     post "/post/create/:id", PostController, :create
     post "/filter/create", FilterController, :create
@@ -51,6 +51,9 @@ Amber::Server.configure do
 
     post "/user/create", UserController, :create
     delete "/user/delete", UserController, :delete
+
+    post "/ban/create", BanController, :create
+    delete "/ban/delete", BanController, :delete
 
     get "/:id", IndexController, :index
     get "/", IndexController, :index

@@ -28,13 +28,13 @@ class IndexController < ApplicationController
   		unless parent.nil?
   			post_button = content(element_name: :a, content: "Reply", options: {
   				href: "#{parent.id.to_s}#reply-#{parent.id.to_s}",
-  				id: "reply-#{parent.id.to_s}"}.to_h) + " " +
+  				id: "reply-#{parent.id.to_s}" }.to_h) + " " +
   				parent.id.to_s + " " + check_digits(parent.id) + " " +
   				parent.created_at.to_s
 
-        if authenticate_token
+        if authenticate_token[:valid]
           mod_button = content(element_name: :a, content: "Mod", options: {
-            href: "/mod?id=#{parent.id.to_s}",
+            href: "/mod?id=#{parent.id.to_s}&ip=#{parent.ip_address}",
             id: "mod-#{parent.id.to_s}"}.to_h)
         end
   		else
