@@ -44,6 +44,49 @@ class ModController < ApplicationController
     end
   end
 
+  def user
+    guard do
+      render("user.ecr")
+    end
+  end
+
+  def render_user_form
+
+    content(element_name: :div, options: {class: "panel"}.to_h) do
+      content(element_name: :table, options: {class: "user_table"}.to_h) do
+        content(element_name: :tr, options: {class: "user_table_row"}.to_h) do
+          content(element_name: :th, options: {class: "user_table_header"}.to_h) do
+            "ID"
+          end +
+          content(element_name: :th, options: {class: "user_table_header"}.to_h) do
+            "Username"
+          end
+        end +
+        User.all.map do |user|
+          content(element_name: :tr, options: {class: "user_table_row"}.to_h) do
+            content(element_name: :td, options: {class: "user_table_data"}.to_h) do
+              user.id.to_s
+            end +
+            content(element_name: :td, options: {class: "user_table_data"}.to_h) do
+              user.username
+            end
+          end
+        end.join
+      end +
+      form(action: "/user/delete", method: "delete") do
+        csrf_tag() +
+        text_field(:username, placeholder: "username") +
+        submit("delete")
+      end +
+      form(action: "/user/create", method: "post") do
+        csrf_tag() +
+        text_field(:username, placeholder: "username") +
+        text_field(:password, type: :password, placeholder: "password") +
+        submit("create user")
+      end
+    end
+  end
+
   def render_login_form
     form(action: "/mod/authenticate", method: "post") do
       csrf_tag() +
@@ -68,7 +111,7 @@ class ModController < ApplicationController
         "Manage bans"
       end +
       "<br/>"+
-      content(element_name: :a, options: { href: "/mod/users?id=#{ params[:id]? }" }.to_h) do
+      content(element_name: :a, options: { href: "/mod/user?id=#{ params[:id]? }" }.to_h) do
         "Manage admin users"
       end
     end
