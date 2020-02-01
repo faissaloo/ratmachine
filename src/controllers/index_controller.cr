@@ -34,7 +34,7 @@ class IndexController < ApplicationController
 
         if authenticate_token
           mod_button = content(element_name: :a, content: "Mod", options: {
-            href: "/mod/#{parent.id.to_s}#reply-#{parent.id.to_s}",
+            href: "/mod?id=#{parent.id.to_s}",
             id: "mod-#{parent.id.to_s}"}.to_h)
         end
   		else

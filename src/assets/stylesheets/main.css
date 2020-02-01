@@ -104,6 +104,14 @@ textarea:focus {
 	z-index: 255;
 }
 
+.panel {
+	border-color: #8c53b3;
+	border-width: 2px;
+	border-style: solid;
+	padding: 8px;
+	background-color: #8c53b3;
+}
+
 .form textarea {
 	width: 30em;
 	height: 10em;
