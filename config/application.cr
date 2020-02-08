@@ -143,5 +143,5 @@ Amber::Server.configure do |settings|
   # settings.logger = Amber::Environment::Logger.new(File.open("ratmachine.log", "w"))
   #
   #
-  
+
 end
