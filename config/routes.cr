@@ -36,12 +36,25 @@ Amber::Server.configure do
   routes :web do
     delete "/post/delete", PostController, :delete
     delete "/filter/delete", FilterController, :delete
-    get "/mod/:id", ModController, :mod
+
     get "/mod", ModController, :mod
+    get "/mod/login", ModController, :login_page
+    post "/mod/authenticate", ModController, :authenticate
+    get "/mod/delete", ModController, :delete
+    get "/mod/filter", ModController, :filter
+    get "/mod/user", ModController, :user
+    get "/mod/ban", ModController, :ban
 
     post "/post/create/:id", PostController, :create
     post "/filter/create", FilterController, :create
     post "/post/create", PostController, :create
+
+    post "/user/create", UserController, :create
+    delete "/user/delete", UserController, :delete
+
+    post "/ban/create", BanController, :create
+    delete "/ban/delete", BanController, :delete
+
     get "/:id", IndexController, :index
     get "/", IndexController, :index
   end

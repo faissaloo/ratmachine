@@ -16,6 +16,9 @@ targets:
     main: lib/amber/src/amber/cli.cr
 
 dependencies:
+  jwt:
+    github: crystal-community/jwt
+  
   amber:
     github: amberframework/amber
     version: 0.30.1

@@ -6,22 +6,38 @@ class PostController < ApplicationController
   def create()
     return render("create.ecr") unless check_captcha && check_message_size && check_filters
 
-    post = Injector.create_post.call(message: params[:msg], parent: params[:parent].to_i32?)
-    @status_msg = post[:status]
+    ip_address = request.remote_address
 
-    if post[:post_id].nil?
-      render("create.ecr")
-    else
-      redirect_to("/#{post[:post_id]}#reply-#{post[:post_id]}")
+    unless ip_address.nil?
+      ip_address = ip_address.split(":").first
+
+      if Ban.exists?(ip_address: ip_address)
+        redirect_to("https://files.catbox.moe/glburl.mp4")
+      else
+        post = Injector.create_post.call(message: params[:msg], parent: params[:parent].to_i32?, ip_address: ip_address)
+        @status_msg = post[:status]
+
+        if post[:post_id].nil?
+          render("create.ecr")
+        else
+          redirect_to("/#{post[:post_id]}#reply-#{post[:post_id]}")
+        end
+      end
     end
   end
 
   def delete()
-    return render("delete.ecr") unless check_captcha && check_root_password
+    guard do
+      @status_msg = Injector.delete_post.call(params[:post_id].to_i)[:status]
+      @redirect_url = "/mod"
+      render("delete.ecr")
+    end
+  end
 
-    @status_msg = Injector.delete_post.call(params[:post_id].to_i)[:status]
-    @redirect_url = "/mod"
-    render("delete.ecr")
+  def check_captcha()
+    filter_check = Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])
+    @status_msg = filter_check[:status]
+    filter_check[:valid]
   end
 
   def render_redirect()
@@ -37,12 +53,6 @@ class PostController < ApplicationController
     end
   end
 
-  def check_captcha()
-    filter_check = Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])
-    @status_msg = filter_check[:status]
-    filter_check[:valid]
-  end
-
   def check_message_size()
     filter_check = Injector.check_message_size.call(message: params[:msg])
     @status_msg = filter_check[:status]
@@ -51,12 +61,6 @@ class PostController < ApplicationController
 
   def check_filters()
     filter_check = Injector.check_filters.call(message: params[:msg])
-    @status_msg = filter_check[:status]
-    filter_check[:valid]
-  end
-
-  def check_root_password()
-    filter_check = Injector.check_root_password.call(password: params[:password])
     @status_msg = filter_check[:status]
     filter_check[:valid]
   end

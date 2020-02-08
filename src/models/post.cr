@@ -6,6 +6,7 @@ class Post < Granite::Base
   column id : Int64, primary: true
   column parent : Int32?
   column message : String
+  column ip_address : String?
   column last_reply : Int32?
   timestamps
 
@@ -13,7 +14,7 @@ class Post < Granite::Base
     FormatterHelper.format(self.message.as(String))
   end
 
-  def self.reply(message, parent_id : Int32 | Nil = nil)
+  def self.reply(message, ip_address : String | Nil, parent_id : Int32 | Nil = nil)
     post_to_delete : Post | Nil
     post_to_delete = nil
 
@@ -21,7 +22,7 @@ class Post < Granite::Base
       post_to_delete = Post.first("ORDER BY created_at ASC")
     end
 
-    post = Post.create(message: message, parent: parent_id)
+    post = Post.create(message: message, parent: parent_id, ip_address: ip_address)
     post_id = post.id
 
     parent = nil

@@ -1,106 +1,212 @@
+require "jwt"
 require "../helpers/captcha/captcha"
 
 class ModController < ApplicationController
   @post_to_action : Int32 | Nil
-  def mod
-    id = params[:id]?
-    unless id.nil?
-      @post_to_action = id.to_i
+  def login_page
+    render("login_page.ecr")
+  end
+
+  def authenticate
+    user = User.authenticate(username: params[:username], password: params[:password])
+
+    if user.nil? || !Injector.check_captcha.call(captcha_id: params[:captcha_id], captcha_value: params[:captcha_value])[:valid]
+      redirect_to("/mod/login?failed=true")
+    else
+      response.cookies["session"] = JWT.encode({username: user.username, privilege: :admin}, Authentication.secret, JWT::Algorithm::HS256)
+      if ENV["AMBER_ENV"] != "development"
+        response.cookies["session"].secure = true
+      end
+      redirect_to("/mod")
     end
-
-    render("mod.ecr")
   end
 
-  def render_thread(parent : Post | Nil = nil)
-  	content(element_name: :div, options: {class: "post"}.to_h) do
-  		unless parent.nil?
-  		  select_button = content(element_name: :a, content: "Select", options: {
-  				href: "/mod/#{parent.id.to_s}#reply-#{parent.id.to_s}",
-  				id: "reply-#{parent.id.to_s}"}.to_h) + " " +
-  				parent.id.to_s + " " +
-  				parent.created_at.to_s
-  		else
-  			select_button = content(element_name: :a, content: "Deselect", options: {href: "/mod/#top", id: "top"}.to_h)
-  		end
-  		post_content = content(element_name: :div, options: {class: "post_content"}.to_h) do
-  			content(element_name: :p, options: {class: "post_text"}.to_h) do
-  				parent.html unless parent.nil?
-  			end
-  		end
+  def mod
+    guard do
+      id = params[:id]?
+      unless id.nil?
+        @post_to_action = id.to_i
+      end
 
-  		child_posts = Post.get_replies(parent).map do |post|
-  			render_thread(post).as(String)
-  		end.join("<br/>")
-  		select_button +
-      "<br/>" + post_content + child_posts
-  	end
+      render("mod.ecr")
+    end
   end
 
-  def get_mod_form_title()
-    return "Mod tools <br/>" if @post_to_action.nil?
-    "Mod tools for post #{@post_to_action} <br/>"
+  def delete
+    guard do
+      render("delete.ecr")
+    end
+  end
+
+  def filter
+    guard do
+      render("filter.ecr")
+    end
+  end
+
+  def user
+    guard do
+      render("user.ecr")
+    end
+  end
+
+  def ban
+    guard do
+      render("ban.ecr")
+    end
+  end
+
+  def render_ban_form
+    content(element_name: :div, options: {class: "panel"}.to_h) do
+      content(element_name: :table, options: {class: "ban_table"}.to_h) do
+        content(element_name: :tr, options: {class: "ban_table_row"}.to_h) do
+          content(element_name: :th, options: {class: "ban_table_header"}.to_h) do
+            "ID"
+          end +
+          content(element_name: :th, options: {class: "ban_table_header"}.to_h) do
+            "IP address"
+          end
+        end +
+        Ban.all.map do |ban|
+          content(element_name: :tr, options: {class: "ban_table_row"}.to_h) do
+            content(element_name: :td, options: {class: "ban_table_data"}.to_h) do
+              ban.id.to_s
+            end +
+            content(element_name: :td, options: {class: "ban_table_data"}.to_h) do
+              ban.ip_address
+            end
+          end
+        end.join
+      end +
+      form(action: "/ban/delete", method: "delete") do
+        csrf_tag() +
+        text_field(:ip_address, placeholder: "ip address", value: params[:ip]?) +
+        submit("delete")
+      end +
+      form(action: "/ban/create", method: "post") do
+        csrf_tag() +
+        text_field(:ip_address, placeholder: "ip address", value: params[:ip]?) +
+        submit("create")
+      end
+    end
+  end
+
+  def render_user_form
+    content(element_name: :div, options: {class: "panel"}.to_h) do
+      content(element_name: :table, options: {class: "user_table"}.to_h) do
+        content(element_name: :tr, options: {class: "user_table_row"}.to_h) do
+          content(element_name: :th, options: {class: "user_table_header"}.to_h) do
+            "ID"
+          end +
+          content(element_name: :th, options: {class: "user_table_header"}.to_h) do
+            "Username"
+          end
+        end +
+        User.all.map do |user|
+          content(element_name: :tr, options: {class: "user_table_row"}.to_h) do
+            content(element_name: :td, options: {class: "user_table_data"}.to_h) do
+              user.id.to_s
+            end +
+            content(element_name: :td, options: {class: "user_table_data"}.to_h) do
+              user.username
+            end
+          end
+        end.join
+      end +
+      form(action: "/user/delete", method: "delete") do
+        csrf_tag() +
+        text_field(:username, placeholder: "username") +
+        submit("delete")
+      end +
+      form(action: "/user/create", method: "post") do
+        csrf_tag() +
+        text_field(:username, placeholder: "username") +
+        text_field(:password, type: :password, placeholder: "password") +
+        submit("create")
+      end
+    end
+  end
+
+  def render_login_form
+    content(element_name: :div, options: { class: "panel" }.to_h) do
+      form(action: "/mod/authenticate", method: "post") do
+        csrf_tag() +
+        text_field(:username, placeholder: "username") + "<br>"+
+        text_field(:password, type: :password, placeholder: "password") +
+        CaptchaHelper.captcha_form() +
+        submit("login")
+      end
+    end
+  end
+
+  def render_panel()
+    content(element_name: :div, options: { class: "panel" }.to_h) do
+      content(element_name: :a, options: { href: "/mod/delete?id=#{ params[:id]? }&ip=#{ params[:ip]? }" }.to_h) do
+        "Delete posts"
+      end +
+      "<br/>" +
+      content(element_name: :a, options: { href: "/mod/filter?id=#{ params[:id]? }&ip=#{ params[:ip]? }" }.to_h) do
+        "Manage post filters"
+      end +
+      "<br/>"+
+      content(element_name: :a, options: { href: "/mod/ban?id=#{ params[:id]? }&ip=#{ params[:ip]? }" }.to_h) do
+        "Manage bans"
+      end +
+      "<br/>"+
+      content(element_name: :a, options: { href: "/mod/user?id=#{ params[:id]? }&ip=#{ params[:ip]? }" }.to_h) do
+        "Manage admin users"
+      end
+    end
   end
 
   def render_delete_form()
-    unless @post_to_action.nil?
-      content(element_name: :details, options: {class: "form"}.to_h) do
-        content(element_name: :summary, options: {class: "form_heading"}.to_h) do
-          get_mod_form_title()
-        end +
-        form(action: "/post/delete", method: "delete") do
-          csrf_tag() +
-          hidden_field(:post_id, value: @post_to_action) +
-          text_field(:password, type: :password, placeholder: "password") +
-          CaptchaHelper.captcha_form() +
-          submit("delete")
-        end
+    content(element_name: :div, options: {class: "panel"}.to_h) do
+      form(action: "/post/delete", method: "delete") do
+        csrf_tag() +
+        text_field(:post_id, type: :number, value: params[:id]?) +
+        submit("delete")
       end
-    else
-      content(element_name: :details, options: {class: "form"}.to_h) do
-        content(element_name: :summary, options: {class: "form_heading"}.to_h) do
-          get_mod_form_title()
-        end +
-        content(element_name: :table, options: {class: "filter_table"}.to_h) do
-          content(element_name: :tr, options: {class: "filter_table_row"}.to_h) do
-            content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
-              "ID"
-            end +
-            content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
-              "Regex"
-            end +
-            content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
-              "Severity"
-            end
+    end
+  end
+
+  def render_filter_form()
+    content(element_name: :div, options: {class: "panel"}.to_h) do
+      content(element_name: :table, options: {class: "filter_table"}.to_h) do
+        content(element_name: :tr, options: {class: "filter_table_row"}.to_h) do
+          content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
+            "ID"
           end +
-          Filter.all.map do |filter|
-            content(element_name: :tr, options: {class: "filter_table_row"}.to_h) do
-              content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
-                filter.id.to_s
-              end +
-              content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
-                filter.regex
-              end +
-              content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
-                filter.severity
-              end
-            end
-          end.join
+          content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
+            "Regex"
+          end +
+          content(element_name: :th, options: {class: "filter_table_header"}.to_h) do
+            "Severity"
+          end
         end +
-        form(action: "/filter/create", method: "post") do
-          csrf_tag() +
-          text_field(:filter_regex, placeholder: "regex", autocomplete: "off") + "<br/>" +
-          text_field(:filter_severity, type: :number, placeholder: "severity", autocomplete: "off") + "<br/>" +
-          text_field(:password, type: :password, placeholder: "password") +
-          CaptchaHelper.captcha_form() +
-          submit("add filter")
-        end+
-        form(action: "/filter/delete", method: "delete") do
-          csrf_tag() +
-          text_field(:filter_id, type: :number, placeholder: "id", autocomplete: "off") + "<br/>" +
-          text_field(:password, type: :password, placeholder: "password") +
-          CaptchaHelper.captcha_form() +
-          submit("delete filter")
-        end
+        Filter.all.map do |filter|
+          content(element_name: :tr, options: {class: "filter_table_row"}.to_h) do
+            content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
+              filter.id.to_s
+            end +
+            content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
+              filter.regex
+            end +
+            content(element_name: :td, options: {class: "filter_table_data"}.to_h) do
+              filter.severity
+            end
+          end
+        end.join
+      end +
+      form(action: "/filter/create", method: "post") do
+        csrf_tag() +
+        text_field(:filter_regex, placeholder: "regex", autocomplete: "off") + "<br/>" +
+        text_field(:filter_severity, type: :number, placeholder: "severity", autocomplete: "off") + "<br/>" +
+        submit("add filter")
+      end+
+      form(action: "/filter/delete", method: "delete") do
+        csrf_tag() +
+        text_field(:filter_id, type: :number, placeholder: "id", autocomplete: "off") + "<br/>" +
+        submit("delete filter")
       end
     end
   end
