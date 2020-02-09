@@ -1,4 +1,4 @@
-FROM amberframework/amber:v0.30.0
+FROM amberframework/amber:v0.31.0
 
 RUN apt update -q
 RUN apt install -y --no-install-recommends imagemagick
@@ -9,5 +9,7 @@ COPY shard.* /app/
 RUN shards install
 
 COPY . /app
+
+RUN rm -rf /app/node_modules
 
 CMD amber watch
