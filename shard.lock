@@ -10,7 +10,7 @@ shards:
 
   bindata:
     github: spider-gazelle/bindata
-    version: 1.2.0
+    version: 1.5.1
 
   callback:
     github: drujensen/callback
@@ -34,11 +34,11 @@ shards:
 
   email:
     github: arcage/crystal-email
-    version: 0.3.3
+    version: 0.4.6
 
   exception_page:
     github: crystal-loot/exception_page
-    version: 0.1.2
+    version: 0.1.4
 
   garnet_spec:
     github: amberframework/garnet-spec
@@ -102,7 +102,7 @@ shards:
 
   quartz_mailer:
     github: amberframework/quartz-mailer
-    version: 0.5.3
+    version: 0.5.4
 
   redis:
     github: stefanwille/crystal-redis
