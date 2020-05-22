@@ -15,7 +15,7 @@ class ApplicationController < Amber::Controller::Base
       content(element_name: :img, content: "", options: {src: heading_image.to_s, id: "heading_image", alt: "XD lol random dancing"}.to_h) +
       content(element_name: :h4, options: {id: "main info"}.to_h) do
         "Bitcoin: 1LseDRH9dywzfpW6vGpkaNYpQWSpaqwz44 " +
-        content(element_name: :a, content: "TOR", options: {href: "http://clo5p5jsvei55iyz.onion"}.to_h)
+        content(element_name: :a, content: "TOR", options: {href: "http://6bjckqi7h3cm2bfseh63ukg5ptr77czwm53cfqv7gjwcm6bmvehaaeqd.onion/"}.to_h)
       end +
       content(element_name: :details, options: {id: "about_opener"}.to_h) do
         content(element_name: :summary, options: {id: "about_button"}.to_h) do

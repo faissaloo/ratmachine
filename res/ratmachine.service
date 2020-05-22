@@ -1,0 +1,12 @@
+[Unit]
+Description=Ratmachine
+After=network.target
+
+[Service]
+ExecStart=/var/www/ratwires.space/bin/ratmachine
+Environment=AMBER_ENV=production
+WorkingDirectory=/var/www/ratwires.space
+Type=simple
+
+[Install]
+WantedBy=default.target
