@@ -11,7 +11,7 @@ class User < Granite::Base
 
   def self.authenticate(username : String, password : String)
     user = User.find_by!(username: username)
-    if Crypto::Bcrypt::Password.new(user.salted_hashed_password) == password
+    if Crypto::Bcrypt::Password.new(user.salted_hashed_password).verify(password)
       user
     else
       nil
