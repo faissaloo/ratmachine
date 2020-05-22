@@ -23,7 +23,7 @@ class IndexController < ApplicationController
   end
 
   def render_thread(parent : Post | Nil = nil)
-  	content(element_name: :div, options: {class: "post"+is_selected_class(parent)}.to_h) do
+  	content(element_name: :details, options: {class: "post"+is_selected_class(parent), open: true}.to_h) do
       mod_button = ""
   		unless parent.nil?
   			post_button = content(element_name: :a, content: "Reply", options: {
@@ -49,7 +49,10 @@ class IndexController < ApplicationController
   		child_posts = Post.get_replies(parent).map do |post|
   			render_thread(post).as(String)
   		end.join("<br/>")
-  		mod_button + post_button + "<br/>" + post_content + child_posts
+
+      content(element_name: :summary, options: {class: "post_header"}.to_h) do
+        mod_button + post_button
+      end + post_content + child_posts
   	end
   end
 
