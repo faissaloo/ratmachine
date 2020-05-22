@@ -16,9 +16,15 @@ class IndexController < ApplicationController
 
   def is_selected_class(post : Post | Nil)
     if (@reply_to.nil? && post.nil?) || ((!post.nil?) && @reply_to == post.id)
-      " SelectedPost"
+      " selected_post"
     else
       ""
+    end
+  end
+
+  def render_main
+    content(:div, options: {class: "board_container"}.to_h) do
+      render_thread()
     end
   end
 
@@ -35,7 +41,7 @@ class IndexController < ApplicationController
         if authenticate_token[:valid]
           mod_button = content(element_name: :a, content: "Mod", options: {
             href: "/mod?id=#{parent.id.to_s}&ip=#{parent.ip_address}",
-            id: "mod-#{parent.id.to_s}"}.to_h)
+            id: "mod-#{parent.id.to_s}"}.to_h)+" "
         end
   		else
   			post_button = content(element_name: :a, content: "Post", options: {href: "/#top", id: "top"}.to_h)
@@ -48,7 +54,7 @@ class IndexController < ApplicationController
 
   		child_posts = Post.get_replies(parent).map do |post|
   			render_thread(post).as(String)
-  		end.join("<br/>")
+  		end.join()
 
       content(element_name: :summary, options: {class: "post_header"}.to_h) do
         mod_button + post_button

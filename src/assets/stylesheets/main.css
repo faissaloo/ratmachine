@@ -117,25 +117,6 @@ textarea:focus {
 	height: 10em;
 }
 
-.post a {
-	padding: 4px;
-	color: #f6b3e5;
-	text-decoration: none;
-	font-weight: bold;
-	border-width: 2px;
-	border-style: outset;
-	border-color: rgba(0,0,0,.2);
-	background-color:rgba(0,0,0,.2);
-	border-radius: 4px;
-	margin: 0.1em;
-}
-
-.post a:hover {
-	border-style: solid;
-	background-color:rgba(0,0,0,.04);
-	cursor: pointer;
-}
-
 input[type=button],input[type=submit] {
 	padding: 4px;
 	color: #f6b3e5;
@@ -154,18 +135,24 @@ input[type=button]:hover, input[type=submit]:hover {
 	cursor: pointer;
 }
 
+.post_header {
+	padding: 4px;
+	background-color: rgba(30,0,66,.4);
+}
+
 .post {
 	color: #f6b3e5;
 	border-radius: 4px;
-	padding: 0.5em;
+	margin-left: 0.5em;
+	margin-bottom: 0.5em;
 	border-width: 2px;
 	border-style: solid;
 	background-color:rgba(0,0,0,.2);
 	border-color: rgba(0,0,0,.2);
 }
 
-.SelectedPost {
-	background-color: rgba(0,0,255,.2);
+.selected_post {
+	border-color: #be00ff;
 }
 
 .greentext {
@@ -276,6 +263,7 @@ code {
 }
 
 .post_content {
+	margin-left: 0.5em;
 	overflow-wrap: break-word;
 	overflow-y: hidden;
 	max-height: 25em;
