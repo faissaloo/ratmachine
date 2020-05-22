@@ -1,6 +1,7 @@
 [Unit]
 Description=Ratmachine
 After=network.target
+Requires=postgresql.service
 
 [Service]
 ExecStart=/var/www/ratwires.space/bin/ratmachine
