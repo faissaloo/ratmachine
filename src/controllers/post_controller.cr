@@ -6,7 +6,12 @@ class PostController < ApplicationController
   def create()
     return render("create.ecr") unless check_captcha && check_message_size && check_filters
 
-    ip_address = request.remote_address
+    # In case we're in a reverse proxy
+    if request.headers["X-Forwarded-For"]?
+      ip_address = request.headers["X-Forwarded-For"]
+    else
+      ip_address = request.remote_address
+    end
 
     unless ip_address.nil?
       ip_address = ip_address.split(":").first
