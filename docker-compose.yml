@@ -9,6 +9,8 @@ services:
     tty: true
     environment:
       DATABASE_URL: postgres://admin:password@db:5432/ratmachine_development
+      RATMACHINE_MOD_USERNAME: wojak
+      RATMACHINE_MOD_PASSWORD: tfwnogf
     ports:
       - 3000:3000
     links:

@@ -14,7 +14,7 @@ class ModController < ApplicationController
       redirect_to("/mod/login?failed=true")
     else
       response.cookies["session"] = JWT.encode({username: user.username, privilege: :admin}, Authentication.secret, JWT::Algorithm::HS256)
-      if ENV["AMBER_ENV"] != "development"
+      if ENV["AMBER_ENV"] == "production"
         response.cookies["session"].secure = true
       end
       redirect_to("/mod")

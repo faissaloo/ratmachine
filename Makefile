@@ -1,7 +1,10 @@
 SRC_DIR := src
 SRC_FILES := $(shell find spec/ db/ config/ src/ -type f -regex ".*\.cr")
 
-.PHONY: dev config deploy
+.PHONY: build-dev dev config deploy
+build-dev:
+	docker-compose build
+
 dev:
 	docker-compose up
 
