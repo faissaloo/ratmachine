@@ -8,7 +8,7 @@ Ratmachine is an javascriptless anonymous textboard engine with various text eff
 
 | markup |   effect    |
 |--------|-------------|
-|   #    | beveltext   |
+|   ^^   | 3text       |
 |   `    | code        |
 |   *    | italic      |
 |   **   | bold        |

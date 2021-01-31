@@ -1,6 +1,6 @@
 module FormatterHelper
 	def self.escape(str : String)
-		str.gsub(/[&><"'#;]/, {"&": "&amp;", ">": "&gt;", "<": "&lt;", "\"": "&quot;", "'": "&#39;", "#": "&#x23;", ";": "&#x3B;"})
+		str.gsub(/[><]/, {">": "&gt;", "<": "&lt;"})
 	end
 
 	def self.rxEsc(str : String)
@@ -25,7 +25,7 @@ module FormatterHelper
 		escaped_str = escaped_str.gsub(/#{isnt_escaped}#{rxEsc("%%")}#{match_until}#{isnt_escaped}#{rxEsc("%%")}/, "<span class=\"spoiler\">\\1</span>")
 		escaped_str = escaped_str.gsub(/#{isnt_escaped}#{rxEsc("$$")}#{match_until}#{isnt_escaped}#{rxEsc("$$")}/, "<span class=\"shaketext\">\\1</span>")
 		escaped_str = escaped_str.gsub(/#{isnt_escaped}#{rxEsc("$")}#{match_until}#{isnt_escaped}#{rxEsc("$")}/, "<span class=\"rainbowtext\">\\1</span>")
-		escaped_str = escaped_str.gsub(/#{isnt_escaped}#{rxEsc("#")}#{match_until}#{isnt_escaped}#{rxEsc("#")}/, "<span class=\"threedtext\">\\1</span>")
+		escaped_str = escaped_str.gsub(/#{isnt_escaped}#{rxEsc("^^")}#{match_until}#{isnt_escaped}#{rxEsc("^^")}/, "<span class=\"threedtext\">\\1</span>")
 		escaped_str = escaped_str.gsub(/#{isnt_escaped}#{rxEsc("!!")}#{match_until}#{isnt_escaped}#{rxEsc("!!")}/, "<span class=\"glow\">\\1</span>")
 		escaped_str = escaped_str.gsub(/#{isnt_escaped}#{rxEsc("**")}#{match_until}#{isnt_escaped}#{rxEsc("**")}/, "<b>\\1</b>")
 		escaped_str = escaped_str.gsub(/#{isnt_escaped}#{rxEsc("*")}#{match_until}#{isnt_escaped}#{rxEsc("*")}/, "<i>\\1</i>")
