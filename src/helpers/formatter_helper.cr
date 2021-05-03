@@ -1,6 +1,6 @@
 module FormatterHelper
 	def self.escape(str : String)
-		str.gsub(/[><]/, {">": "&gt;", "<": "&lt;", "+": "&#43;"})
+		str.gsub(/[><+]/, {">": "&gt;", "<": "&lt;", "+": "&#43;"})
 	end
 
 	def self.rxEsc(str : String)
@@ -14,9 +14,14 @@ module FormatterHelper
 	def self.isnt_escaped
 		/(?<!\\)/
 	end
+	
+	def self.url_capture
+		/((?:\w+\:\/\/)[\w\.\/\%]+)/
+	end
 
 	def self.format(str : String)
 		escaped_str = self.escape(str)
+		escaped_str = escaped_str.gsub(url_capture, "<a href=\"\\1\">\\1</a>")
 		escaped_str = escaped_str.gsub(/^#{isnt_escaped}#{rxEsc(">")}#{match_until}$/m, "<span class=\"greentext\">#{escape(">")}\\1</span>")
 		escaped_str = escaped_str.gsub(/^#{isnt_escaped}#{rxEsc("<")}#{match_until}$/m, "<span class=\"bluetext\">#{escape("<")}\\1</span>")
 		escaped_str = escaped_str.gsub("\n", "<br/>")

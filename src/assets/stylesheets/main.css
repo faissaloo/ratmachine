@@ -248,12 +248,15 @@ input[type=button]:hover, input[type=submit]:hover {
 	padding: 0px;
 	border: none;
 	background: none;
-	color: cyan;
-	font-weight: lighter;
+	color: deeppink;
+	font-weight: bold;
+	font-style: italic;
+	text-decoration: overline;
+ 	text-shadow: 3px 3px black;
 }
 
 .post_content a:hover {
-	color: lightcyan;
+	color: lightpink;
 }
 
 code {

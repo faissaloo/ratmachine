@@ -29,21 +29,9 @@ dependencies:
     github: amberframework/granite
     version: 0.22.1
 
-#  quartz_mailer:
-#    github: amberframework/quartz-mailer
-#    version: ~> 0.6.0
-
   jasper_helpers:
     github: amberframework/jasper-helpers
     version: ~> 0.2.0
-
-#  pg:
-#    github: will/crystal-pg
-#    version: ~> 0.20.0
-
-#  citrine-i18n:
-#    github: amberframework/citrine-i18n
-#    version: 0.3.2
 
 development_dependencies:
  garnet_spec:
