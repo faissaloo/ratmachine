@@ -8,9 +8,13 @@ shards:
     github: amberframework/amber-router
     version: 0.3.0
 
+  backtracer:
+    github: Sija/backtracer.cr
+    version: 1.2.1
+
   bindata:
     github: spider-gazelle/bindata
-    version: 1.5.1
+    version: 1.9.0
 
   callback:
     github: drujensen/callback
@@ -34,7 +38,7 @@ shards:
 
   exception_page:
     github: crystal-loot/exception_page
-    version: 0.1.4
+    version: 0.2.0
 
   garnet_spec:
     github: amberframework/garnet-spec
@@ -56,21 +60,25 @@ shards:
     github: amberframework/jasper-helpers
     version: 0.2.5
 
+  json_mapping:
+    github: crystal-lang/json_mapping.cr
+    version: 0.1.1
+
   jwt:
     github: crystal-community/jwt
-    version: 1.4.0
+    version: 1.4.1
 
   kilt:
     github: jeromegn/kilt
-    version: 0.4.0
+    version: 0.4.1
 
   liquid:
     github: TechMagister/liquid.cr
-    version: 0.3.2
+    version: 0.3.4
 
   markd:
     github: icyleaf/markd
-    version: 0.2.0
+    version: 0.4.0
 
   micrate:
     github: amberframework/micrate
@@ -82,7 +90,7 @@ shards:
 
   openssl_ext:
     github: stakach/openssl_ext
-    version: 1.2.0
+    version: 1.2.2
 
   optarg:
     github: drujensen/optarg
@@ -94,7 +102,7 @@ shards:
 
   pool:
     github: ysbaddaden/pool
-    version: 0.2.3
+    version: 0.2.4
 
   redis:
     github: stefanwille/crystal-redis
@@ -110,7 +118,7 @@ shards:
 
   slang:
     github: jeromegn/slang
-    version: 1.7.1
+    version: 1.7.2
 
   sqlite3:
     github: crystal-lang/crystal-sqlite3

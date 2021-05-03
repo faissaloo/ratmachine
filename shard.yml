@@ -18,6 +18,7 @@ targets:
 dependencies:
   jwt:
     github: crystal-community/jwt
+    version: 1.4.1
   
   amber:
     github: amberframework/amber
