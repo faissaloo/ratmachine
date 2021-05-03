@@ -18,16 +18,16 @@ targets:
 dependencies:
   jwt:
     github: crystal-community/jwt
-    version: 1.4.1
+    version: 1.5.1
   
   amber:
     github: amberframework/amber
-    version: 0.33.0
+    version: 0.36.0
     #branch: master
 
   granite:
     github: amberframework/granite
-    version: 0.19.0
+    version: 0.22.1
 
 #  quartz_mailer:
 #    github: amberframework/quartz-mailer
@@ -41,9 +41,9 @@ dependencies:
 #    github: will/crystal-pg
 #    version: ~> 0.20.0
 
-  citrine-i18n:
-    github: amberframework/citrine-i18n
-    version: 0.3.2
+#  citrine-i18n:
+#    github: amberframework/citrine-i18n
+#    version: 0.3.2
 
 development_dependencies:
  garnet_spec:

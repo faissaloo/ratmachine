@@ -1,6 +1,6 @@
-require "citrine-i18n"
+#require "citrine-i18n"
 
-Citrine::I18n.configure do |settings|
+#Citrine::I18n.configure do |settings|
   # Backend storage (as supported by i18n.cr)
   # settings.backend = I18n::Backend::Yaml.new
 
@@ -18,7 +18,6 @@ Citrine::I18n.configure do |settings|
   # settings.exception_handler = ExceptionHandler.new
 
   # The path from where the translations should be loaded
-  settings.load_path += ["./src/locales"]
-end
-
-I18n.init
+#  settings.load_path += ["./src/locales"]
+#end
+#I18n.init

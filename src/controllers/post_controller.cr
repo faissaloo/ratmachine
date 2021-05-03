@@ -14,7 +14,7 @@ class PostController < ApplicationController
     end
 
     unless ip_address.nil?
-      ip_address = ip_address.split(":").first
+      ip_address = ip_address.to_s.split(":").first
 
       if Ban.exists?(ip_address: ip_address)
         redirect_to("https://files.catbox.moe/glburl.mp4")

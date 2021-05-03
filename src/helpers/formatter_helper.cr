@@ -1,6 +1,6 @@
 module FormatterHelper
 	def self.escape(str : String)
-		str.gsub(/[><]/, {">": "&gt;", "<": "&lt;"})
+		str.gsub(/[><]/, {">": "&gt;", "<": "&lt;", "+": "&#43;"})
 	end
 
 	def self.rxEsc(str : String)
