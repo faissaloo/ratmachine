@@ -20,5 +20,5 @@ build: bin/ratmachine
 
 deploy: build
 	ssh -i ~/.ssh/ratwires -p 460 root@ratwires.space "systemctl stop ratmachine"
-	rsync -rtvp --exclude='.git/' --exclude 'node_modules/' -e 'ssh -p 460' --progress . root@ratwires.space:/var/www/ratwires.space
+	rsync -rtvp --exclude='.git/' --exclude 'node_modules/' -e 'ssh -i ~/.ssh/ratwires -p 460' --progress . root@ratwires.space:/var/www/ratwires.space
 	ssh -i ~/.ssh/ratwires -p 460 root@ratwires.space "systemctl start ratmachine"

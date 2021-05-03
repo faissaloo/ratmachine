@@ -1,0 +1,15 @@
+#Systemd unit file for Ratmachine
+#Goes in /etc/systemd/system/ratmachine.service
+#Install ratmachine to /var/www/ratwires.space
+[Unit]
+Description=Ratmachine
+After=postgresql.service
+
+[Service]
+ExecStart=/var/www/ratwires.space/bin/ratmachine
+Environment=AMBER_ENV=production
+WorkingDirectory=/var/www/ratwires.space
+Type=simple
+
+[Install]
+WantedBy=default.target
