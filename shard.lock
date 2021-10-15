@@ -74,7 +74,7 @@ shards:
 
   markd:
     git: https://github.com/icyleaf/markd.git
-    version: 0.3.0
+    version: 0.4.1
 
   micrate:
     git: https://github.com/amberframework/micrate.git
@@ -86,7 +86,7 @@ shards:
 
   openssl_ext:
     git: https://github.com/spider-gazelle/openssl_ext.git
-    version: 2.1.4
+    version: 2.1.5
 
   optarg:
     git: https://github.com/amberframework/optarg.git
@@ -114,7 +114,7 @@ shards:
 
   slang:
     git: https://github.com/jeromegn/slang.git
-    version: 1.7.2
+    version: 1.7.3
 
   sqlite3:
     git: https://github.com/crystal-lang/crystal-sqlite3.git

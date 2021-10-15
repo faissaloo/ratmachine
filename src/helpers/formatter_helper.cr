@@ -16,12 +16,13 @@ module FormatterHelper
 	end
 	
 	def self.url_capture
-		/((?:\w+\:\/\/)[\w\.\/\%\-\:\/\=\?]+)/
+		/((?:\w+\:\/\/)[\w\.\/\%\-\:\/\=\#\?]+)/
 	end
 
 	def self.format(str : String)
 		escaped_str = self.escape(str)
 		escaped_str = escaped_str.gsub(url_capture, "<a href=\"\\1\">\\1</a>")
+		escaped_str = escaped_str.gsub(/#{isnt_escaped}#{rxEsc("[[")}#{match_until}#{rxEsc("]]")}/, "<button>\\1</button>")
 		escaped_str = escaped_str.gsub(/^#{isnt_escaped}#{rxEsc(">")}#{match_until}$/m, "<span class=\"greentext\">#{escape(">")}\\1</span>")
 		escaped_str = escaped_str.gsub(/^#{isnt_escaped}#{rxEsc("<")}#{match_until}$/m, "<span class=\"bluetext\">#{escape("<")}\\1</span>")
 		escaped_str = escaped_str.gsub("\n", "<br/>")

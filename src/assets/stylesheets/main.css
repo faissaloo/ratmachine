@@ -268,7 +268,7 @@ code {
 .post_content {
 	margin-left: 0.5em;
 	overflow-wrap: break-word;
-	overflow-y: hidden;
+	overflow: hidden;
 	max-height: 25em;
   text-overflow: ellipsis;
 }

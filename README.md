@@ -19,6 +19,7 @@ Ratmachine is an javascriptless anonymous textboard engine with various text eff
 |   ==   | redtext     |
 |   >    | greentext   |
 |   <    | bluetext    |
+|  [[]]  | button      |
 
 To start the development environment install docker and docker-compose and use `make build-dev`, from then on you can use `make dev` to boot up the environment. When using the development environment the default username is `wojak` and the password is `tfwnogf`.
 

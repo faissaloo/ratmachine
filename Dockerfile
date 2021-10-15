@@ -1,7 +1,12 @@
-FROM amberframework/amber:0.33.0
+FROM amberframework/amber:0.36.0
 
-RUN apt update -q
-RUN apt install -y --no-install-recommends imagemagick
+#debug output
+RUN crystal --version
+RUN amber --version
+
+#shoddy workaround for the crystal repository being missing which causes a hard error
+RUN apt-get update -q || true
+RUN apt-get install -y --no-install-recommends imagemagick
 
 WORKDIR /app
 
@@ -12,4 +17,4 @@ COPY . /app
 
 RUN rm -rf /app/node_modules
 
-CMD amber watch
+CMD amber watch --error-trace
