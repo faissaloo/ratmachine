@@ -34,7 +34,7 @@ shards:
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
-    version: 0.2.0
+    version: 0.3.0
 
   future:
     git: https://github.com/crystal-community/future.cr.git
@@ -74,7 +74,7 @@ shards:
 
   markd:
     git: https://github.com/icyleaf/markd.git
-    version: 0.4.1
+    version: 0.4.2
 
   micrate:
     git: https://github.com/amberframework/micrate.git
