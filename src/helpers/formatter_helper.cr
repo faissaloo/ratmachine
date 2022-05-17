@@ -16,7 +16,7 @@ module FormatterHelper
 	end
 	
 	def self.url_capture
-		/((?:\w+\:\/\/)[\w\.\/\%\-\:\/\=\#\?]+)/
+		/((?:\w+\:\/\/)[\w\.\/\%\-\:\/\=\#\?\&]+)/
 	end
 
 	def self.format(str : String)
