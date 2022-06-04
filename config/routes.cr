@@ -37,6 +37,8 @@ Amber::Server.configure do
     delete "/post/delete", PostController, :delete
     delete "/filter/delete", FilterController, :delete
 
+    get "/style/:name", ThemeController, :set
+    
     get "/mod", ModController, :mod
     get "/mod/login", ModController, :login_page
     post "/mod/authenticate", ModController, :authenticate

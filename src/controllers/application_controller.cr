@@ -4,6 +4,13 @@ class ApplicationController < Amber::Controller::Base
   include JasperHelpers
   LAYOUT = "application.ecr"
 
+  def get_theme()
+    theme_name = "main"
+    theme_name = "cyb" if cookies["theme_name"] == "cyb"
+    content(element_name: :link, options: {rel: "stylesheet", type: "text/css", href: "/dist/#{theme_name}.bundle.css"}.to_h) do
+    end
+  end
+  
   @redirect_url : String | Nil
   def redirector()
     "<meta http-equiv=\"REFRESH\" content=\"1;url=#{@redirect_url}\">" unless @redirect_url.nil?
@@ -30,6 +37,19 @@ class ApplicationController < Amber::Controller::Base
             " with the " +
             content(element_name: :a, content: "Amber Framework", options: {href: "https://github.com/amberframework/amber"}.to_h) +
             ". It has a 255 post limit, after which the post that has been on the top level the longest is purged."
+        end
+      end +
+      content(element_name: :details, options: {id: "theme_selector_opener"}.to_h) do
+        content(element_name: :summary, options: {id: "theme_selector_button"}.to_h) do
+          "Themes"
+        end + 
+        content(element_name: :nav, options: {id: "theme_selector"}.to_h) do
+          content(element_name: :a, options: {id: "main_theme_selector", href: "/style/main"}.to_h) do
+            "Main"
+          end + " " +
+          content(element_name: :a, options: {id: "main_theme_selector", href: "/style/cyb"}.to_h) do
+            "Cyb"
+          end
         end
       end
     end

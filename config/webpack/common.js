@@ -2,9 +2,13 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+let mainStyle = new ExtractTextPlugin('main.bundle.css');
+let cybStyle = new ExtractTextPlugin('cyb.bundle.css');
+
 let config = {
   entry: {
-    'main.bundle.css': './src/assets/stylesheets/main.css'
+    'main.bundle.css': './src/assets/stylesheets/main.css',
+    'cyb.bundle.css': './src/assets/stylesheets/cyb.css',
   },
   output: {
     filename: '[name]',
@@ -19,9 +23,9 @@ let config = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /main.css$/,
         exclude: /node_modules/,
-        use: ExtractTextPlugin.extract({
+        use: mainStyle.extract({
           fallback: 'style-loader',
           use: {
             loader: 'css-loader',
@@ -32,11 +36,16 @@ let config = {
         })
       },
       {
-        test: /\.scss$/,
+        test: /cyb.css$/,
         exclude: /node_modules/,
-        use: ExtractTextPlugin.extract({
+        use: cybStyle.extract({
           fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
+          use: {
+            loader: 'css-loader',
+            options: {
+              minimize: true
+            }
+          }
         })
       },
       {
@@ -64,7 +73,8 @@ let config = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin('main.bundle.css'),
+    mainStyle,
+    cybStyle,
   ],
   // For more info about webpack logs see: https://webpack.js.org/configuration/stats/
   stats: 'errors-only'
